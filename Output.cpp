@@ -99,18 +99,18 @@ Input* Output::CreateInput() const
 
 int Output::GetCellStartX(const CellPosition & cellPos) const
 {
-	///TODO: implement the following function as described in Output.h file
-
-	return 0; // this line should be changed with your implementation
+	int v = cellPos.HCell();
+	return v * UI.CellWidth; // return cell number from left * Width of each cell
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
 int Output::GetCellStartY(const CellPosition & cellPos) const
 {
-	///TODO: implement the following function as described in Output.h file
+	int Y = UI.ToolBarHeight; // y co-ordinate of first cell in column
+	int h = cellPos.VCell();
 
-	return 0; // this line should be changed with your implementation
+	return Y + h * UI.CellHeight; // return cell number from up * Height + Y of first cell
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -306,8 +306,8 @@ void Output::DrawCell(const CellPosition & cellPos, int cardNum) const
 	else
 		pWind->SetBrush(UI.CellColor_HasCard);
 
-	///TODO: Draw the Cell Rectangle using the appropriate coordinates
-	
+	/// Draw the Cell Rectangle
+	pWind->DrawRectangle(cellStartX, cellStartY, cellStartX + UI.CellWidth, cellStartY + UI.CellHeight);
 
 
 	// ----- 2- Draw the CELL number (the small number at the bottom right of the cell) -----
@@ -319,7 +319,7 @@ void Output::DrawCell(const CellPosition & cellPos, int cardNum) const
 	///TODO: Get the Width and Height of the Cell Number if written using the current font 
 	//       (Use GetIntegerSize() window function) and set the "w" and "h" variables with its width and height
 
-
+	pWind->GetIntegerSize(w, h, cellNum); // pass w, h by reference to return width and height of cell number
 
 	// Calculate X & Y coordinate of the start point of writing the card number (upper left point of the cell num)
 	int x = cellStartX + (UI.CellWidth - w - 1);   // space 1 from the end of the cell width
@@ -328,7 +328,7 @@ void Output::DrawCell(const CellPosition & cellPos, int cardNum) const
 												   // ( - w ) because y is for the start point of cell num (num's upper corner)
 	
 	///TODO: Draw the cell number in the x and y location
-
+	pWind->DrawInteger(x, y, cellNum);
 	
 
 	// ----- 3- Draw card number (if any) -----
