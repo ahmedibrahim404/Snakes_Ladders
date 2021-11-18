@@ -113,10 +113,34 @@ ActionType Input::GetUserAction() const
 		// perform checks similar to Design mode checks above for the Play Mode
 		// and return the corresponding ActionType
 
-		return TO_DESIGN_MODE;	// just for now ==> This should be updated
+		if (y >= 0 && y < UI.ToolBarHeight)
+		{
+			// Check which Menu item was clicked
+			// ==> This assumes that menu items are lined up horizontally <==
+
+			int ClickedItemOrder = (x / UI.MenuItemWidth);
+
+			// Divide x coord of the point clicked by the menu item width (integer division)
+			// If division result is 0 ==> first item is clicked, if 1 ==> 2nd item and so on
+
+			switch (ClickedItemOrder)
+			{
+			case ITM_ROLL_DICE: return ROLL_DICE;
+			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
 
 
+			default: return EMPTY;	// A click on empty place in toolbar
+			}
+		}
 
+		// [2] User clicks on the grid area
+		if ((y >= UI.ToolBarHeight) && (y < UI.height - UI.StatusBarHeight))
+		{
+			return GRID_AREA;
+		}
+
+		// [3] User clicks on the status bar
+		return STATUS;
 
 	}	
 
