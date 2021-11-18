@@ -1,6 +1,6 @@
 #include "CellPosition.h"
 #include "UI_Info.h"
-
+#include <iostream>
 CellPosition::CellPosition () 
 {
 	// (-1) indicating an invalid cell (uninitialized by the user)
@@ -28,18 +28,23 @@ CellPosition::CellPosition (int cellNum)
 
 bool CellPosition::SetVCell(int v) 
 {
-	///TODO: Implement this function as described in the .h file (don't forget the validation)
+	// checks if v is not out of boundary
+	if (v < NumVerticalCells && v >= 0) {
+		vCell = v;
+		return true;
+	}
 
-
-	return false; // this line sould be changed with your implementation
+	return false; 
 }
 
 bool CellPosition::SetHCell(int h) 
 {
-	///TODO: Implement this function as described in the .h file (don't forget the validation)
+	if (h < NumHorizontalCells && h >= 0) {
+		hCell = h;
+		return true;
+	}
 
-
-	return false; // this line sould be changed with your implementation
+	return false;
 }
 
 int CellPosition::VCell() const 
@@ -54,10 +59,8 @@ int CellPosition::HCell() const
 
 bool CellPosition::IsValidCell() const 
 {
-	///TODO: Implement this function as described in the .h file
-
-
-	return false; // this line sould be changed with your implementation
+	// checks if vCell and hCell aren't out of boundary
+	return vCell < NumVerticalCells && vCell >= 0 && hCell < NumHorizontalCells && hCell >= 0;
 }
 
 int CellPosition::GetCellNum() const
@@ -72,11 +75,11 @@ int CellPosition::GetCellNumFromPosition(const CellPosition & cellPosition)
 	// this is a static function (do NOT need a calling object so CANNOT use the data members of the calling object, vCell&hCell)
 	// just define an integer that represents cell number and calculate it using the passed cellPosition then return it
 
-	///TODO: Implement this function as described in the .h file
+	int v = cellPosition.VCell();
+	int h = cellPosition.HCell();
 
-	
+	return	(NumVerticalCells - v - 1) * NumHorizontalCells + h + 1;
 
-	return 0; // this line should be changed with your implementation
 }
 
 CellPosition CellPosition::GetCellPositionFromNum(int cellNum)
@@ -84,25 +87,22 @@ CellPosition CellPosition::GetCellPositionFromNum(int cellNum)
 	// this is a static function (do NOT need a calling object so CANNOT use the data members of the calling object, vCell&hCell)
 
 	CellPosition position;
+	
+	int h = NumVerticalCells - ceil(1.0 * cellNum / NumHorizontalCells); // get hCell
+	int v = (cellNum % NumHorizontalCells) - 1; // get vCell
+	if (v == -1) v = NumHorizontalCells; // handle last card in row
 
-	/// TODO: Implement this function as described in the .h file
-
-
-
-	// Note: use the passed cellNum to set the vCell and hCell of the "position" variable declared inside the function
-	//       I mean: position.SetVCell(...) and position.SetHCell(...) then return it
-
+	position.SetHCell(h);
+	position.SetVCell(v);
 
 	return position;
 }
 
 void CellPosition::AddCellNum (int addedNum)
 {
-	
-	/// TODO: Implement this function as described in the .h file
-
-
-
-	// Note: this function updates the data members (vCell and hCell) of the calling object
-
+	int cellNum = GetCellNum();
+	int newCellNum = cellNum + addedNum; // get new cell number
+	CellPosition newCell = GetCellPositionFromNum(newCellNum); // get position of new cell
+	SetHCell(newCell.HCell()); // update HCell & VCell of current Cell
+	SetVCell(newCell.VCell());
 }
