@@ -45,15 +45,14 @@ string Input::GetSrting(Output *pO) const
 int Input::GetInteger(Output *pO) const 
 {
 
-	///TODO: implement the GetInteger function as described in Input.h file 
+	//(done)/TODO: implement the GetInteger function as described in Input.h file 
 	//       using function GetString() defined above and function stoi()
 	
-
-
+	string num = Input::GetSrting(pO); // getting the integer as a string.
 
 	// Note: stoi(s) converts string s into its equivalent integer (for example, "55" is converted to 55)
 
-	return 0; // this line should be changed with your implementation
+	return stoi(num); // this line should be changed with your implementation
 }
 
 //======================================================================================//
@@ -129,7 +128,7 @@ ActionType Input::GetUserAction() const
 			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
 
 
-			default: return EMPTY;	// A click on empty place in toolbar
+			default: return EMPTY;	// A click on an empty place in toolbar
 			}
 		}
 
@@ -159,10 +158,12 @@ CellPosition Input::GetCellClicked() const
 	{
 		if ( y >= UI.ToolBarHeight && y <= (UI.height - UI.StatusBarHeight))
 		{
-			///TODO: SetHCell and SetVCell of the object cellPost appropriately
+			//(done)/TODO: SetHCell and SetVCell of the object cellPost appropriately
 			//       using the coordinates x, y and the appropriate variables of the UI_Info Object (UI)
 			
+			y -= UI.ToolBarHeight; // getting the active value of y according to the grid.
 
+			cellPos.SetHCell(x/UI.CellWidth); cellPos.SetVCell(y/UI.CellHeight); // getting the coordinates of the cell.
 
 		}
 	}
