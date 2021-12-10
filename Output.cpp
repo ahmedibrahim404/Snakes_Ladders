@@ -202,8 +202,14 @@ void Output::CreateDesignModeToolBar() const
 	MenuItemImages[ITM_ADD_LADDER] = "images\\Menu_Ladder.jpg";	
 	MenuItemImages[ITM_ADD_SNAKE] = "images\\Menu_Snake.jpg";	
 	MenuItemImages[ITM_ADD_CARD] = "images\\Menu_Card.jpg";	
-	MenuItemImages[ITM_EXIT] = "images\\Menu_Exit.jpg";
+	MenuItemImages[ITM_COPY_CARD] = "images\\Copy_Card.jpg";
+	MenuItemImages[ITM_CUT_CARD] = "images\\Cut_Card.jpg";
+	MenuItemImages[ITM_PASTE_CARD] = "images\\Paste_Card.jpg";
+	MenuItemImages[ITM_DELETE_GAME] = "images\\Delete_Game_Object.jpg";
+	MenuItemImages[ITM_SAVE_GRID] = "images\\Save_Grid.jpg";
+	MenuItemImages[ITM_OPEN_GRID] = "images\\Open_Grid.jpg";
 	MenuItemImages[ITM_SWITCH_TO_PLAY_MODE] = "images\\Menu_SwitchToGame.jpg";
+	MenuItemImages[ITM_EXIT] = "images\\Menu_Exit.jpg";
 
 	///TODO: Prepare images for each menu item and add it to the list
 
@@ -233,6 +239,8 @@ void Output::CreatePlayModeToolBar() const
 	// ** MAKE SURE THAT THE IMAGES ARE .JPG FILES **
 	string MenuItemImages[PLAY_ITM_COUNT];
 	MenuItemImages[ITM_ROLL_DICE] = "images\\Menu_Dice.jpg";
+	MenuItemImages[ITM_DICE_VALUE] = "images\\Input_Dice_Value.jpg";
+	MenuItemImages[ITM_NEW_GAME] = "images\\New_Game.jpg";
 	MenuItemImages[ITM_SWITCH_TO_DESIGN_MODE] = "images\\Menu_SwitchToGrid.jpg";
 
 	///TODO: Prepare images for each menu item and add it to the list
@@ -285,7 +293,6 @@ void Output::PrintPlayersInfo(string info)
 	int y = (UI.ToolBarHeight - h) / 2; // in the Middle of the toolbar height
 
 	//(done)/TODO: Draw the string "info" in the specified location (x, y)
-
 	pWind->DrawString(x, y, info);
 
 }
