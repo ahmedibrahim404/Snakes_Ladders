@@ -67,7 +67,7 @@ int main()
 	//CellPosition player_15 (2, 18);
 	//CellPosition player_99 (2, 5);
 	//added:
-	CellPosition player_0  ( 5, 6 );
+	CellPosition player_0  ( 8, 0 );
 	CellPosition player_1  ( 8, 0 );
 	CellPosition player_2  ( 8, 0 );
 	CellPosition player_3  ( 8, 0 );
@@ -409,6 +409,8 @@ int main()
 	delete pOut;	
 	return 0;
 }
+
+
 
 
 
