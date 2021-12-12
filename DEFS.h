@@ -7,6 +7,7 @@
 
 enum ActionType // The actions supported (add more as needed)
 {
+
 	//  [1] Actions of Design Mode
 
 	ADD_LADDER,		// Add Ladder Action
@@ -15,14 +16,22 @@ enum ActionType // The actions supported (add more as needed)
 	EXIT,			// Exit Application
 	TO_PLAY_MODE,	// Go to Play Mode
 
-	///TODO: Add more action types of Design Mode
-
+	///(Done)TODO: Add more action types of Design Mode
+	COPY_CARD,		// Copy the Card with all its data to the clipboard
+	CUT_CARD,		// Cut the Card with all its data to the clipboard
+	PASTE_CARD,		// Paste the Card in the clipboard to the destination cell
+	DELETE_OBJECT,	// Delete the game object in the cell
+	SAVE_GRID,		// Save the information of the designed grid
+	OPEN_GRID,		// Open a saved grid from a file and re-draw it
+	
 	//  [2] Actions of Play Mode
 
 	ROLL_DICE,		// Roll Dice Action
 	TO_DESIGN_MODE,	// Go to Design Mode
 
-	///TODO: Add more action types of Play Mode
+	///(Done)TODO: Add more action types of Play Mode
+	INPUT_DICE_VALUE,	//ask a user to enter a dice value instead of generating a random value
+	NEW_GAME,			//Restarts players positions, wallets, and turn returns to player 0
 
 	//  [3] Others
 
