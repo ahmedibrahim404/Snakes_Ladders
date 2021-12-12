@@ -33,6 +33,7 @@ enum DESIGN_MODE_ITEMS // The items of the Design Mode (you should add more item
 	ITM_OPEN_GRID,
 	ITM_EXIT,
 	ITM_SWITCH_TO_PLAY_MODE,
+	ITM_DELETE_OBJECT,
 
 	///(Done) TODO: Add more items names here
 
@@ -49,6 +50,8 @@ enum PLAY_MODE_ITEMS // The items of the Play Mode (you should add more items)
 	ITM_NEW_GAME,
 	ITM_SWITCH_TO_DESIGN_MODE,
 	///TODO: Add more items names here
+	ITM_INPUT_DICE_VALUE,
+	ITM_PEXIT,
 
 	PLAY_ITM_COUNT		// no. of items ==> This should be the last line in this enum
 };
