@@ -45,14 +45,14 @@ string Input::GetSrting(Output *pO) const
 int Input::GetInteger(Output *pO) const 
 {
 
-	//(done)/TODO: implement the GetInteger function as described in Input.h file 
+	///TODO: implement the GetInteger function as described in Input.h file 
 	//       using function GetString() defined above and function stoi()
 	
-	string num = Input::GetSrting(pO); // getting the integer as a string.
+	return stoi(GetSrting(pO));
 
 	// Note: stoi(s) converts string s into its equivalent integer (for example, "55" is converted to 55)
 
-	return stoi(num); // this line should be changed with your implementation
+	return 0; // this line should be changed with your implementation
 }
 
 //======================================================================================//
@@ -86,8 +86,13 @@ ActionType Input::GetUserAction() const
 			case ITM_EXIT: return EXIT;
 			case ITM_SWITCH_TO_PLAY_MODE: return TO_PLAY_MODE;			
 
-				///TODO: Add cases for the other items of Design Mode
-
+			///TODO(done): Add cases for the other items of Design Mode
+			case ITM_COPY_CARD: return COPY_CARD;
+			case ITM_CUT_CARD: return CUT_CARD;
+			case ITM_PASTE_CARD: return PASTE_CARD;
+			case ITM_DELETE_OBJECT: return DELETE_OBJECT;
+			case ITM_SAVE_GRID: return SAVE_GRID;
+			case ITM_OPEN_GRID: return OPEN_GRID;
 
 
 
@@ -108,9 +113,6 @@ ActionType Input::GetUserAction() const
 	// ============ GUI in the Play mode ============
 	else	
 	{
-		///TODO:
-		// perform checks similar to Design mode checks above for the Play Mode
-		// and return the corresponding ActionType
 
 		if (y >= 0 && y < UI.ToolBarHeight)
 		{
@@ -127,8 +129,11 @@ ActionType Input::GetUserAction() const
 			case ITM_ROLL_DICE: return ROLL_DICE;
 			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
 
+			case ITM_INPUT_DICE_VALUE: return INPUT_DICE_VALUE;
+			case ITM_NEW_GAME: return NEW_GAME;
+			case ITM_PEXIT: return EXIT;
 
-			default: return EMPTY;	// A click on an empty place in toolbar
+			default: return EMPTY;	// A click on empty place in toolbar
 			}
 		}
 
@@ -158,12 +163,11 @@ CellPosition Input::GetCellClicked() const
 	{
 		if ( y >= UI.ToolBarHeight && y <= (UI.height - UI.StatusBarHeight))
 		{
-			//(done)/TODO: SetHCell and SetVCell of the object cellPost appropriately
+			///TODO: SetHCell and SetVCell of the object cellPost appropriately
 			//       using the coordinates x, y and the appropriate variables of the UI_Info Object (UI)
-			
-			y -= UI.ToolBarHeight; // getting the active value of y according to the grid.
+			cellPos.SetHCell(x / UI.CellWidth);
+			cellPos.SetVCell((y - UI.ToolBarHeight) / UI.CellHeight);
 
-			cellPos.SetHCell(x/UI.CellWidth); cellPos.SetVCell(y/UI.CellHeight); // getting the coordinates of the cell.
 
 		}
 	}
