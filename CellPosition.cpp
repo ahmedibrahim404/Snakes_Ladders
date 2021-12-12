@@ -88,8 +88,9 @@ CellPosition CellPosition::GetCellPositionFromNum(int cellNum)
 
 	CellPosition position;
 	
-	int h = (cellNum-1)%NumHorizontalCells; // get hCell
-	int v = NumVerticalCells-(cellNum-1)/NumHorizontalCells-1; // get vCell
+	int h = NumVerticalCells - ceil(1.0 * cellNum / NumHorizontalCells); // get hCell
+	int v = (cellNum % NumHorizontalCells) - 1; // get vCell
+	if (v == -1) v = NumHorizontalCells; // handle last card in row
 
 	position.SetHCell(h);
 	position.SetVCell(v);
