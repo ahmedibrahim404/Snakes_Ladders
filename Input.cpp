@@ -83,12 +83,16 @@ ActionType Input::GetUserAction() const
 			case ITM_ADD_LADDER: return ADD_LADDER;
 			case ITM_ADD_SNAKE: return ADD_SNAKE;
 			case ITM_ADD_CARD: return ADD_CARD;
-			case ITM_EXIT: return EXIT;
+			case ITM_DEXIT: return EXIT;
 			case ITM_SWITCH_TO_PLAY_MODE: return TO_PLAY_MODE;			
 
-				///TODO: Add cases for the other items of Design Mode
-
-
+			///(Done)TODO: Add cases for the other items of Design Mode
+			case ITM_COPY_CARD: return COPY_CARD;
+			case ITM_CUT_CARD: return CUT_CARD;
+			case ITM_PASTE_CARD: return PASTE_CARD;
+			case ITM_DELETE_OBJECT: return DELETE_OBJECT;
+			case ITM_SAVE_GRID: return SAVE_GRID;
+			case ITM_OPEN_GRID: return OPEN_GRID;
 
 
 			default: return EMPTY;	// A click on empty place in toolbar
@@ -108,7 +112,7 @@ ActionType Input::GetUserAction() const
 	// ============ GUI in the Play mode ============
 	else	
 	{
-		///TODO:
+		///(Done)TODO:
 		// perform checks similar to Design mode checks above for the Play Mode
 		// and return the corresponding ActionType
 
@@ -126,7 +130,11 @@ ActionType Input::GetUserAction() const
 			{
 			case ITM_ROLL_DICE: return ROLL_DICE;
 			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
-
+			
+			//Added By Hamdy
+			case ITM_INPUT_DICE_VALUE: return INPUT_DICE_VALUE;
+			case ITM_NEW_GAME: return NEW_GAME;
+			case ITM_PEXIT: return EXIT;
 
 			default: return EMPTY;	// A click on an empty place in toolbar
 			}
