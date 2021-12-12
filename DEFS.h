@@ -16,14 +16,20 @@ enum ActionType // The actions supported (add more as needed)
 	TO_PLAY_MODE,	// Go to Play Mode
 
 	///TODO: Add more action types of Design Mode
-
+	COPY_CARD,
+	CUT_CARD,
+	PASTE_CARD,
+	DELETE_OBJECT,
+	SAVE_GRID,
+	OPEN_GRID,
 	//  [2] Actions of Play Mode
 
 	ROLL_DICE,		// Roll Dice Action
 	TO_DESIGN_MODE,	// Go to Design Mode
 
 	///TODO: Add more action types of Play Mode
-
+	INPUT_DICE_VALUE,
+	NEW_GAME,
 	//  [3] Others
 
 	EMPTY,				// Empty Area in ToolBar (NOT inside any action icon)
