@@ -45,15 +45,14 @@ string Input::GetSrting(Output *pO) const
 int Input::GetInteger(Output *pO) const 
 {
 
-	///TODO: implement the GetInteger function as described in Input.h file 
+	//(done)/TODO: implement the GetInteger function as described in Input.h file 
 	//       using function GetString() defined above and function stoi()
 	
-
-
+	string num = Input::GetSrting(pO); // getting the integer as a string.
 
 	// Note: stoi(s) converts string s into its equivalent integer (for example, "55" is converted to 55)
 
-	return 0; // this line should be changed with your implementation
+	return stoi(num); // this line should be changed with your implementation
 }
 
 //======================================================================================//
@@ -84,12 +83,16 @@ ActionType Input::GetUserAction() const
 			case ITM_ADD_LADDER: return ADD_LADDER;
 			case ITM_ADD_SNAKE: return ADD_SNAKE;
 			case ITM_ADD_CARD: return ADD_CARD;
-			case ITM_EXIT: return EXIT;
+			case ITM_DEXIT: return EXIT;
 			case ITM_SWITCH_TO_PLAY_MODE: return TO_PLAY_MODE;			
 
-				///TODO: Add cases for the other items of Design Mode
-
-
+			///(Done)TODO: Add cases for the other items of Design Mode
+			case ITM_COPY_CARD: return COPY_CARD;
+			case ITM_CUT_CARD: return CUT_CARD;
+			case ITM_PASTE_CARD: return PASTE_CARD;
+			case ITM_DELETE_OBJECT: return DELETE_OBJECT;
+			case ITM_SAVE_GRID: return SAVE_GRID;
+			case ITM_OPEN_GRID: return OPEN_GRID;
 
 
 			default: return EMPTY;	// A click on empty place in toolbar
@@ -109,14 +112,42 @@ ActionType Input::GetUserAction() const
 	// ============ GUI in the Play mode ============
 	else	
 	{
-		///TODO:
+		///(Done)TODO:
 		// perform checks similar to Design mode checks above for the Play Mode
 		// and return the corresponding ActionType
 
-		return TO_DESIGN_MODE;	// just for now ==> This should be updated
+		if (y >= 0 && y < UI.ToolBarHeight)
+		{
+			// Check which Menu item was clicked
+			// ==> This assumes that menu items are lined up horizontally <==
 
+			int ClickedItemOrder = (x / UI.MenuItemWidth);
 
+			// Divide x coord of the point clicked by the menu item width (integer division)
+			// If division result is 0 ==> first item is clicked, if 1 ==> 2nd item and so on
 
+			switch (ClickedItemOrder)
+			{
+			case ITM_ROLL_DICE: return ROLL_DICE;
+			case ITM_SWITCH_TO_DESIGN_MODE: return TO_DESIGN_MODE;
+			
+			//Added By Hamdy
+			case ITM_INPUT_DICE_VALUE: return INPUT_DICE_VALUE;
+			case ITM_NEW_GAME: return NEW_GAME;
+			case ITM_PEXIT: return EXIT;
+
+			default: return EMPTY;	// A click on an empty place in toolbar
+			}
+		}
+
+		// [2] User clicks on the grid area
+		if ((y >= UI.ToolBarHeight) && (y < UI.height - UI.StatusBarHeight))
+		{
+			return GRID_AREA;
+		}
+
+		// [3] User clicks on the status bar
+		return STATUS;
 
 	}	
 
@@ -135,10 +166,12 @@ CellPosition Input::GetCellClicked() const
 	{
 		if ( y >= UI.ToolBarHeight && y <= (UI.height - UI.StatusBarHeight))
 		{
-			///TODO: SetHCell and SetVCell of the object cellPost appropriately
+			//(done)/TODO: SetHCell and SetVCell of the object cellPost appropriately
 			//       using the coordinates x, y and the appropriate variables of the UI_Info Object (UI)
 			
+			y -= UI.ToolBarHeight; // getting the active value of y according to the grid.
 
+			cellPos.SetHCell(x/UI.CellWidth); cellPos.SetVCell(y/UI.CellHeight); // getting the coordinates of the cell.
 
 		}
 	}
