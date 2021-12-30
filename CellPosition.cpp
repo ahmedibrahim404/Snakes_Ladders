@@ -78,6 +78,9 @@ int CellPosition::GetCellNumFromPosition(const CellPosition & cellPosition)
 	int v = cellPosition.VCell();
 	int h = cellPosition.HCell();
 
+	if ( v >= NumVerticalCells || v<0 || h >= NumHorizontalCells || h <0)
+		return -1;
+
 	return	(NumVerticalCells - v - 1) * NumHorizontalCells + h + 1;
 
 }
@@ -87,10 +90,11 @@ CellPosition CellPosition::GetCellPositionFromNum(int cellNum)
 	// this is a static function (do NOT need a calling object so CANNOT use the data members of the calling object, vCell&hCell)
 
 	CellPosition position;
-	
-	int h = NumVerticalCells - ceil(1.0 * cellNum / NumHorizontalCells); // get hCell
-	int v = (cellNum % NumHorizontalCells) - 1; // get vCell
-	if (v == -1) v = NumHorizontalCells; // handle last card in row
+	if (cellNum <=0 || cellNum >99)
+		return position;
+
+	int h = (cellNum-1)%NumHorizontalCells; // get hCell
+	int v = NumVerticalCells-(cellNum-1)/NumHorizontalCells-1; // get vCell
 
 	position.SetHCell(h);
 	position.SetVCell(v);
