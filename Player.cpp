@@ -1,6 +1,9 @@
 #include "Player.h"
 
 #include "GameObject.h"
+#include "CardNine.h"
+#include "CardTen.h"
+#include "CardEleven.h"
 
 Player::Player(Cell * pCell, int playerNum) : stepCount(0), wallet(100), playerNum(playerNum)
 {
@@ -102,4 +105,33 @@ void Player::AppendPlayerInfo(string & playersInfo) const
 	playersInfo += "P" + to_string(playerNum) + "(" ;
 	playersInfo += to_string(wallet) + ", ";
 	playersInfo += to_string(turnCount) + ")";
+}
+
+int Player::GetMostExpensiveStationNumber() {
+	
+	int stationNumber = -1;
+	int stationPrice = 0;
+
+	if (CardNine::getOwner() == this) {
+		if (CardNine::getPrice() > stationPrice) {
+			stationPrice = CardNine::getPrice();
+			stationNumber = 9;
+		}
+	}
+
+	if (CardTen::getOwner() == this) {
+		if (CardTen::getPrice() > stationPrice) {
+			stationPrice = CardTen::getPrice();
+			stationNumber = 10;
+		}
+	}
+
+	if (CardEleven::getOwner() == this) {
+		if (CardEleven::getPrice() > stationPrice) {
+			stationPrice = CardEleven::getPrice();
+			stationNumber = 11;
+		}
+	}
+
+	return stationNumber;
 }
