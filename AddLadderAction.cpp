@@ -28,15 +28,6 @@ void AddLadderAction::ReadActionParameters()
 	// Read the endPos parameter
 	pOut->PrintMessage("New Ladder: Click on its End Cell ...");
 	endPos = pIn->GetCellClicked();
-
-	if (startPos.HCell() != endPos.HCell()) {
-		pOut->PrintMessage("New Ladder: The Ladder must be vertical, Try again ...");
-		Sleep(2000); // wait for 2 seconds and then ask the user to give the input again
-		ReadActionParameters();
-	}
-	else {
-		pOut->ClearStatusBar();
-	}
 	
 }
 
@@ -47,11 +38,18 @@ void AddLadderAction::Execute()
 	// The first line of any Action Execution is to read its parameter first 
 	// and hence initializes its data members
 	ReadActionParameters();
+	Grid* pGrid = pManager->GetGrid();
+	Output* pOut = pGrid->GetOutput();
+
+	if (startPos.HCell() != endPos.HCell()) {
+		pOut->PrintMessage("New Ladder: The Ladder must be vertical, Try again ...");
+		return;
+	} else {
+		pOut->ClearStatusBar();
+	}
 
 	// Create a Ladder object with the parameters read from the user
 	Ladder * pLadder = new Ladder(startPos, endPos);
-
-	Grid * pGrid = pManager->GetGrid(); // We get a pointer to the Grid from the ApplicationManager
 
 	// Add the card object to the GameObject of its Cell:
 	bool added = pGrid->AddObjectToCell(pLadder);

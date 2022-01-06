@@ -51,6 +51,8 @@ bool Grid::AddObjectToCell(GameObject * pNewObject)  // think if any validation 
 		GameObject * pPrevObject = CellList[pos.VCell()][pos.HCell()]->GetGameObject();
 		if( pPrevObject)  // the cell already contains a game object
 			return false; // do NOT add and return false
+		
+		if (IsOverlapping(pNewObject)) return false;
 
 		// Set the game object of the Cell with the new game object
 		CellList[pos.VCell()][pos.HCell()]->SetGameObject(pNewObject);
@@ -82,6 +84,16 @@ void Grid::UpdatePlayerCell(Player * player, const CellPosition & newPosition)
 
 	// Draw the player's circle on the new cell position
 	player->Draw(pOut);
+}
+
+bool Grid::IsOverlapping(GameObject* p) {
+	int hCell = p->GetPosition().HCell();
+	for (int i = 0; i < NumVerticalCells; i++) {
+		GameObject* curCell = CellList[i][hCell]->GetGameObject();
+		if (p->IsOverlapping(curCell))
+			return true;
+	}
+	return false;
 }
 
 

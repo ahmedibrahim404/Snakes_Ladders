@@ -29,13 +29,6 @@ void AddSnakeAction::ReadActionParameters()
 	pOut->PrintMessage("New Snake: Click on its End Cell ...");
 	endPos = pIn->GetCellClicked();
 
-	if (startPos.HCell() != endPos.HCell()) {
-		pOut->PrintMessage("New Snake: The Snake must be vertical, Try again ...");
-		Sleep(2000); // wait for 2 seconds and then ask the user to give the input again
-		ReadActionParameters();
-	} else {
-		pOut->ClearStatusBar();
-	}
 
 }
 
@@ -46,11 +39,19 @@ void AddSnakeAction::Execute()
 	// The first line of any Action Execution is to read its parameter first 
 	// and hence initializes its data members
 	ReadActionParameters();
+	Grid* pGrid = pManager->GetGrid();
+	Output* pOut = pGrid->GetOutput();
+
+	if (startPos.HCell() != endPos.HCell()) {
+		pOut->PrintMessage("New Snake: The Snake must be vertical, Try again ...");
+	}
+	else {
+		pOut->ClearStatusBar();
+	}
 
 	// Create a Ladder object with the parameters read from the user
 	Snake* pSnake = new Snake(startPos, endPos);
 
-	Grid* pGrid = pManager->GetGrid(); // We get a pointer to the Grid from the ApplicationManager
 
 	// Add the card object to the GameObject of its Cell:
 	bool added = pGrid->AddObjectToCell(pSnake);

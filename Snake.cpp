@@ -28,6 +28,13 @@ CellPosition Snake::GetEndPosition() const
 	return endCellPos;
 }
 
+bool Snake::IsOverlapping(GameObject* newObj) {
+	Snake* s = dynamic_cast<Snake*>(newObj);
+	if (s == nullptr) return false;
+	return !(position.VCell() > s->GetEndPosition().VCell() || newObj->GetPosition().VCell() > endCellPos.VCell());
+}
+
+
 Snake::~Snake()
 {
 }

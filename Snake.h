@@ -17,6 +17,7 @@ public:
 	virtual void Apply(Grid* pGrid, Player* pPlayer); // Applys the effect of the snake
 
 	CellPosition GetEndPosition() const; // A getter for the endCellPos data member
+	virtual bool IsOverlapping(GameObject* newObj);
 
 	virtual ~Snake(); // Virtual destructor
 };
