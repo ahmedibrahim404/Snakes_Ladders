@@ -10,6 +10,10 @@
 #include "CardSix.h"
 #include "CardSeven.h"
 #include "CardEight.h"
+#include "CardNine.h"
+#include "CardTen.h"
+#include "CardEleven.h"
+#include "CardTwelve.h"
 
 AddCardAction::AddCardAction(ApplicationManager *pApp) : Action(pApp)
 {
@@ -91,7 +95,18 @@ void AddCardAction::Execute()
 	case 8:
 		pCard = new CardEight(cardPosition);
 		break;
-
+	case 9:
+		pCard = new CardNine(cardPosition);
+		break;
+	case 10:
+		pCard = new CardTen(cardPosition);
+		break;
+	case 11:
+		pCard = new CardEleven(cardPosition);
+		break;
+	case 12:
+		pCard = new CardTwelve(cardPosition);
+		break;
 	}
 
 	// 3- if pCard is correctly set in the switch case (i.e. if pCard is pointing to an object -- NOT NULL)

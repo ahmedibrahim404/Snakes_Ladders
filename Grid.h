@@ -78,6 +78,7 @@ public:
 	
 	Player* GetNextPlayer(const CellPosition& position);  // Gets a Pointer to the first player after the passed "position"
 
+	Player* GetPoorestPlayer();
 	// ========= User Interface Functions =========
 
 	void UpdateInterface() const;		// It Updates the Grid according to the last state of the game

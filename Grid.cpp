@@ -189,6 +189,20 @@ Player* Grid::GetNextPlayer(const CellPosition& position)
 	}
 	return NULL;
 }
+
+Player* Grid::GetPoorestPlayer() {
+
+	Player* poorest = PlayerList[0];
+	for (int i = 0; i < MaxPlayerCount; i++) {
+		if (poorest->GetWallet() > PlayerList[i]->GetWallet()) {
+			poorest = PlayerList[i];
+		}
+	}
+
+	return poorest;
+
+}
+
 // ========= User Interface Functions =========
 
 
