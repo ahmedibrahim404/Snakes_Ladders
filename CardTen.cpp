@@ -80,3 +80,12 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 	}
 
 }
+
+Card* CardTen::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardTen(Pos);
+	((CardTen*)pCard)->cardPrice = cardPrice;
+	((CardTen*)pCard)->feesToPay = feesToPay;
+	((CardTen*)pCard)->owner = owner;
+	return pCard;
+}

@@ -26,3 +26,9 @@ void CardFour::Apply(Grid* pGrid, Player* pPlayer)
 	*/
 
 }
+
+Card* CardFour::GetCopy(CellPosition& Pos)
+{
+	return new CardFour(Pos);
+}
+

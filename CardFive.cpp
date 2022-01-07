@@ -22,3 +22,8 @@ void CardFive::Apply(Grid* pGrid, Player* pPlayer)
 	for (int i = 0; i < lastRolled; i++) pGrid->RollCurrentPlayer();
 
 }
+
+Card* CardFive::GetCopy(CellPosition& Pos)
+{
+	return new CardFive(Pos);
+}

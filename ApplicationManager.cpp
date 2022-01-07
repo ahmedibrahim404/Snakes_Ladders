@@ -5,6 +5,9 @@
 #include "AddCardAction.h"
 #include "AddSnakeAction.h";
 #include "RollDiceAction.h"
+#include "CopyCardAction.h"
+#include "PasteCardAction.h"
+#include "CutCardAction.h"
 
 ///TODO: Add #include for all action types
 
@@ -80,6 +83,18 @@ void ApplicationManager::ExecuteAction(ActionType ActType)
 	case ROLL_DICE:
 		// create an object of RollDiceAction here
 		pAct = new RollDiceAction(this);
+		break;
+
+	case COPY_CARD:
+		pAct = new CopyCardAction(this);
+		break;
+
+	case CUT_CARD:
+		pAct = new CutCardAction(this);
+		break;
+
+	case PASTE_CARD:
+		pAct = new PasteCardAction(this);
 		break;
 
 	case TO_DESIGN_MODE:

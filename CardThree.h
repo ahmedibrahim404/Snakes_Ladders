@@ -12,7 +12,7 @@ public:
 
 	virtual void Apply(Grid* pGrid, Player* pPlayer);
 
-
+	virtual Card* GetCopy(CellPosition&);
 
 	virtual ~CardThree(); // A Virtual Destructor
 };
