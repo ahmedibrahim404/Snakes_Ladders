@@ -80,6 +80,10 @@ public:
 
 	Player* GetPoorestPlayer();
 
+	Card* GetCard(CellPosition&);
+
+	bool IsValidToPasteCard(CellPosition&);
+
 	bool Grid::IsOverlapping(GameObject* p);
 
 	// ========= User Interface Functions =========

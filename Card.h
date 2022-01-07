@@ -27,6 +27,8 @@ public:
 	                                                   // It is a virtual function (implementation depends on Card Type)
 	virtual bool IsOverlapping(GameObject* newObj);
 
+	virtual Card* GetCopy(CellPosition&) = 0;
+
 	virtual ~Card(); // A Virtual Destructor
 };
 

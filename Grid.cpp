@@ -113,6 +113,7 @@ Output * Grid::GetOutput() const
 void Grid::SetClipboard(Card * pCard) // to be used in copy/cut
 {
 	// you may update slightly in implementation if you want (but without breaking responsibilities)
+	//delete GetClipboard(); // added by me.
 	Clipboard = pCard;
 }
 
@@ -129,6 +130,14 @@ void Grid::SetEndGame(bool endGame)
 bool Grid::GetEndGame() const
 {
 	return endGame;
+}
+
+Card* Grid::GetCard(CellPosition& Pos)
+{
+	if (!Pos.IsValidCell()) {
+		return NULL;
+	}
+	return CellList[Pos.VCell()][Pos.HCell()]->HasCard();
 }
 
 void Grid::AdvanceCurrentPlayer()

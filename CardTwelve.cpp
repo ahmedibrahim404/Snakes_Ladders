@@ -47,3 +47,8 @@ void CardTwelve::Apply(Grid* pGrid, Player* pPlayer)
 	pOut->PrintMessage("Card " + to_string(mostExpensive) + " was transferred to player" + to_string(poorest->getPlayerNumber()));
 
 }
+
+Card* CardTwelve::GetCopy(CellPosition& Pos)
+{
+	return new CardTwelve(Pos);
+}

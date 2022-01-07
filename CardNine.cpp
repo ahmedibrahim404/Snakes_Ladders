@@ -78,3 +78,12 @@ int CardNine::getFeesToPay() {
 void CardNine::setOwner(Player* newOwner) {
 	CardNine::owner = newOwner;
 }
+
+Card* CardNine::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardNine(Pos);
+	((CardNine*)pCard)->cardPrice = cardPrice;
+	((CardNine*)pCard)->feesToPay = feesToPay;
+	((CardNine*)pCard)->owner = owner;
+	return pCard;
+}

@@ -25,3 +25,8 @@ void CardSeven::Apply(Grid* pGrid, Player* pPlayer)
 	pGrid->UpdatePlayerCell(pPlayer, CellPosition(1));
 
 }
+
+Card* CardSeven::GetCopy(CellPosition& Pos)
+{
+	return new CardSeven(Pos);
+}

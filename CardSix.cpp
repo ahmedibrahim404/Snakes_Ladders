@@ -31,3 +31,11 @@ void CardSix::Apply(Grid* pGrid, Player* pPlayer)
 	pGrid->UpdatePlayerCell(pPlayer, moveTo);
 
 }
+
+Card* CardSix::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardSix(Pos);
+	((CardSix*)pCard)->walletAmount = walletAmount;
+	((CardSix*)pCard)->moveTo = moveTo;
+	return pCard;
+}

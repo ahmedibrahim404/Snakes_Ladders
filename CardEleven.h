@@ -20,6 +20,8 @@ public:
 
 	static void setOwner(Player*);
 
+	virtual Card* GetCopy(CellPosition&);
+
 	virtual ~CardEleven(); // A Virtual Destructor
 };
 
