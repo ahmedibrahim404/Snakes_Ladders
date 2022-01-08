@@ -4,11 +4,6 @@ Player* CardEleven::owner = nullptr;
 int CardEleven::cardPrice = 0;
 int CardEleven::feesToPay = 0;
 
-CardEleven::CardEleven()
-{
-
-}
-
 CardEleven::CardEleven(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 11; // set the inherited cardNumber data member with the card number (11 here)
@@ -93,7 +88,7 @@ void CardEleven::Save(ofstream &OutFile)
 
 void CardEleven::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
 	Infile >> cardPrice >> feesToPay;
+	pGrid->AddObjectToCell(this);
 }
 

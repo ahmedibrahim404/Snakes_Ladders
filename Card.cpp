@@ -54,15 +54,6 @@ int Card::getCardsCount()
 	return CardsCount;
 }
 
-void Card::Load(ifstream &Infile, Grid *pGrid)
-{
-	int CellNum;
-	Infile >> CellNum;
-
-	this->position = CellPosition::GetCellPositionFromNum(CellNum);
-	pGrid->AddObjectToCell(this);
-}
-
 Card::~Card()
 {
 	CardsCount--;

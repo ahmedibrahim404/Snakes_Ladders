@@ -1,10 +1,5 @@
 #include "CardThree.h"
 
-CardThree::CardThree()
-{
-
-}
-
 CardThree::CardThree(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 3; // set the inherited cardNumber data member with the card number (3 here)
@@ -39,6 +34,6 @@ void CardThree::Save(ofstream &OutFile)
 
 void CardThree::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
+	pGrid->AddObjectToCell(this);
 }
 

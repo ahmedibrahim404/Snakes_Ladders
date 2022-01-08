@@ -8,7 +8,6 @@ class CardTen : public Card
 	static int feesToPay;
 	static Player* owner;
 public:
-	CardTen();
 	CardTen(const CellPosition& pos);
 
 	virtual void ReadCardParameters(Grid* pGrid);

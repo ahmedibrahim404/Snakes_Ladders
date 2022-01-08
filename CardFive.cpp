@@ -1,11 +1,5 @@
 #include "CardFive.h"
 
-
-CardFive::CardFive()
-{
-
-}
-
 CardFive::CardFive(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 5; // set the inherited cardNumber data member with the card number (5 here)
@@ -36,6 +30,6 @@ void CardFive::Save(ofstream &OutFile)
 
 void CardFive::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
+	pGrid->AddObjectToCell(this);
 }
 

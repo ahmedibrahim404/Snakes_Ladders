@@ -1,11 +1,6 @@
 #include "CardTwo.h"
 #include "Ladder.h"
 
-CardTwo::CardTwo()
-{
-
-}
-
 CardTwo::CardTwo(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 2; // set the inherited cardNumber data member with the card number (2 here)
@@ -39,6 +34,6 @@ void CardTwo::Save(ofstream &OutFile)
 
 void CardTwo::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
+	pGrid->AddObjectToCell(this);
 }
 

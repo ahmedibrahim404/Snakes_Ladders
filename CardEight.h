@@ -7,7 +7,6 @@ class CardEight : public Card
 	int coinsToPay;
 
 public:
-	CardEight();
 	CardEight(const CellPosition& pos);
 
 	virtual void ReadCardParameters(Grid* pGrid);

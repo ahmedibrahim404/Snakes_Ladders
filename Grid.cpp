@@ -336,7 +336,9 @@ void Grid::SaveAll( ofstream& OutFile, ObjectType type )
 
 void Grid::LoadAll( ifstream& InFile, Grid *pGrid )
 {
-	int LaddersNum, SnakesNum, CardsNum, CardType;
+	int LaddersNum, SnakesNum, CardsNum, CardType, CellNum;
+	CellPosition C;
+
 	Ladder *pLadder;
 	Snake *pSnake;
 	Card *pCard;
@@ -360,43 +362,46 @@ void Grid::LoadAll( ifstream& InFile, Grid *pGrid )
 	{
 		InFile >> CardType;
 		
+		InFile >> CellNum;
+		C = CellPosition::GetCellPositionFromNum(CellNum);
+	
 		switch ( CardType )
 		{
 		case 1:
-			pCard = new CardOne();
+			pCard = new CardOne(C);
 			break;
 		case 2:
-			pCard = new CardTwo();
+			pCard = new CardTwo(C);
 			break;
 		case 3:
-			pCard = new CardThree();
+			pCard = new CardThree(C);
 			break;
 		case 4:
-			pCard = new CardFour();
+			pCard = new CardFour(C);
 			break;
 		case 5:
-			pCard = new CardFive();
+			pCard = new CardFive(C);
 			break;
 		case 6:
-			pCard = new CardSix();
+			pCard = new CardSix(C);
 			break;
 		case 7:
-			pCard = new CardSeven();
+			pCard = new CardSeven(C);
 			break;
 		case 8:
-			pCard = new CardEight();
+			pCard = new CardEight(C);
 			break;
 		case 9:
-			pCard = new CardNine();
+			pCard = new CardNine(C);
 			break;
 		case 10:
-			pCard = new CardTen();
+			pCard = new CardTen(C);
 			break;
 		case 11:
-			pCard = new CardEleven();
+			pCard = new CardEleven(C);
 			break;
 		case 12:
-			pCard = new CardTwelve();
+			pCard = new CardTwelve(C);
 			break;
 		}
 		pCard->Load( InFile, pGrid );

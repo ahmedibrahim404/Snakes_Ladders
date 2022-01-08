@@ -4,7 +4,6 @@
 class CardTwelve : public Card
 {
 public:
-	CardTwelve();
 	CardTwelve(const CellPosition& pos);
 
 	virtual void ReadCardParameters(Grid* pGrid);

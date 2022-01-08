@@ -33,7 +33,7 @@ public:
 	static int getCardsCount();
 
 	virtual void Save(ofstream &OutFile) = 0;
-	virtual void Load(ifstream &Infile, Grid *pGrid);
+	virtual void Load(ifstream &Infile, Grid *pGrid) = 0;
 
 	virtual ~Card(); // A Virtual Destructor
 };

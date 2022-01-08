@@ -1,10 +1,5 @@
 #include "CardFour.h"
 
-CardFour::CardFour()
-{
-
-}
-
 CardFour::CardFour(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 4; // set the inherited cardNumber data member with the card number (4 here)
@@ -39,6 +34,6 @@ void CardFour::Save(ofstream &OutFile)
 
 void CardFour::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
+	pGrid->AddObjectToCell(this);
 }
 

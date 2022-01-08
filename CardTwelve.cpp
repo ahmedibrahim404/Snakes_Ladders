@@ -3,11 +3,6 @@
 #include "CardTen.h"
 #include "CardEleven.h"
 
-CardTwelve::CardTwelve()
-{
-
-}
-
 CardTwelve::CardTwelve(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 12; // set the inherited cardNumber data member with the card number (12 here)
@@ -60,6 +55,6 @@ void CardTwelve::Save(ofstream &OutFile)
 
 void CardTwelve::Load(ifstream &Infile, Grid *pGrid)
 {
-	Card::Load( Infile, pGrid );
+	pGrid->AddObjectToCell(this);
 }
 
