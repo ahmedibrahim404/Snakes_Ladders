@@ -1,6 +1,11 @@
 #include "GameObject.h"
 
 
+GameObject::GameObject()
+{
+
+}
+
 GameObject::GameObject(const CellPosition & pos)
 {
 	position = pos; // Sets Position

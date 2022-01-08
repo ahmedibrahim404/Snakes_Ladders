@@ -1,8 +1,16 @@
 #include "Snake.h"
 
+int Snake::SnakesCount = 0;
+
+Snake::Snake()
+{
+
+}
+
 Snake::Snake(const CellPosition& startCellPos, const CellPosition& endCellPos) : GameObject(startCellPos)
 {
 	this->endCellPos = endCellPos;
+	SnakesCount++;
 
 	///TODO: Do the needed validation
 }
@@ -34,7 +42,29 @@ bool Snake::IsOverlapping(GameObject* newObj) {
 	return !(position.VCell() > s->GetEndPosition().VCell() || newObj->GetPosition().VCell() > endCellPos.VCell());
 }
 
+int Snake::getSnakesCount()
+{
+	return SnakesCount;
+}
+
+void Snake::Save(ofstream &OutFile)
+{
+	OutFile << this->position.GetCellNum() << "\t" << this->GetEndPosition().GetCellNum() << "\n";
+}
+
+void Snake::Load(ifstream &Infile, Grid *pGrid)
+{
+	int sCell, eCell;
+	Infile >> sCell >> eCell;
+	
+	this->position = CellPosition::GetCellPositionFromNum(sCell);
+	this->endCellPos = CellPosition::GetCellNumFromPosition(eCell);
+
+	pGrid->AddObjectToCell(this);
+}
 
 Snake::~Snake()
 {
+	SnakesCount--;
 }
+

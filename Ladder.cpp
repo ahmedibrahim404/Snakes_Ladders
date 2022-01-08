@@ -1,9 +1,16 @@
 #include "Ladder.h"
 
+int Ladder::LaddersCount = 0;
+
+Ladder::Ladder()
+{
+
+}
+
 Ladder::Ladder(const CellPosition & startCellPos, const CellPosition & endCellPos) : GameObject(startCellPos)
 {
 	this->endCellPos = endCellPos;
-
+	LaddersCount++;
 	///TODO: Do the needed validation
 }
 
@@ -40,6 +47,29 @@ bool Ladder::IsOverlapping(GameObject* newObj) {
 	return !(position.VCell() < l->GetEndPosition().VCell() || l->GetPosition().VCell() < endCellPos.VCell());
 }
 
+int Ladder::getLaddersCount()
+{
+	return LaddersCount;
+}
+
+void Ladder::Save(ofstream &OutFile)
+{
+	OutFile << this->position.GetCellNum() << "\t" << this->GetEndPosition().GetCellNum() << "\n";
+}
+
+void Ladder::Load(ifstream &Infile, Grid *pGrid)
+{
+	int sCell, eCell;
+	Infile >> sCell >> eCell;
+	
+	this->position = CellPosition::GetCellPositionFromNum(sCell);
+	this->endCellPos = CellPosition::GetCellNumFromPosition(eCell);
+
+	pGrid->AddObjectToCell(this);
+}
+
 Ladder::~Ladder()
 {
+	LaddersCount--;
 }
+

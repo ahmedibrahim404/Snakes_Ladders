@@ -3,8 +3,22 @@
 #include "Cell.h"
 #include "GameObject.h"
 #include "Ladder.h"
-#include "Card.h"
+#include "Snake.h"
 #include "Player.h"
+#include "Card.h"
+
+#include "CardOne.h"
+#include "CardTwo.h"
+#include "CardThree.h"
+#include "CardFour.h"
+#include "CardFive.h"
+#include "CardSix.h"
+#include "CardSeven.h"
+#include "CardEight.h"
+#include "CardNine.h"
+#include "CardTen.h"
+#include "CardEleven.h"
+#include "CardTwelve.h"
 
 Grid::Grid(Input * pIn, Output * pOut) : pIn(pIn), pOut(pOut) // Initializing pIn, pOut
 {
@@ -149,6 +163,19 @@ void Grid::PreventNextTime(Player* currentPlayer) {
 	preventNext[currentPlayer->getPlayerNumber()] ++;
 }
 
+int Grid::GetLaddersCount()
+{
+	return Ladder::getLaddersCount();
+}
+int Grid::GetSnakesCount()
+{
+	return Snake::getSnakesCount();
+}
+int Grid::GetCardsCount()
+{
+	return Card::getCardsCount();
+}
+
 // ========= Other Getters =========
 
 
@@ -274,6 +301,122 @@ void Grid::PrintErrorMessage(string msg)
 	pOut->ClearStatusBar();
 }
 
+// ========= Save Grid ============
+
+void Grid::SaveAll( ofstream& OutFile, ObjectType type )
+{
+	for ( int i = 0; i < NumVerticalCells; i++ )
+	{
+		for ( int j = 0; j < NumHorizontalCells; j++ )
+		{
+			if ( type == ObjectType::TypeLadder )
+			{
+				if ( CellList[i][j]->HasLadder() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+			else if ( type == ObjectType::TypeSnake )
+			{
+				if ( CellList[i][j]->HasSnake() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+			else if ( type == ObjectType::TypeCard )
+			{
+				if ( CellList[i][j]->HasCard() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+		}
+	}
+}
+
+void Grid::LoadAll( ifstream& InFile, Grid *pGrid )
+{
+	int LaddersNum, SnakesNum, CardsNum, CardType;
+	Ladder *pLadder;
+	Snake *pSnake;
+	Card *pCard;
+	
+	InFile >> LaddersNum;
+	while ( LaddersNum-- )
+	{
+		pLadder = new Ladder;
+		pLadder->Load( InFile , pGrid );
+	}
+
+	InFile >> SnakesNum;
+	while ( SnakesNum-- )
+	{
+		pSnake = new Snake;
+		pSnake->Load( InFile , pGrid );
+	}
+	
+	InFile >> CardsNum;
+	while ( CardsNum-- )
+	{
+		InFile >> CardType;
+		
+		switch ( CardType )
+		{
+		case 1:
+			pCard = new CardOne();
+			break;
+		case 2:
+			pCard = new CardTwo();
+			break;
+		case 3:
+			pCard = new CardThree();
+			break;
+		case 4:
+			pCard = new CardFour();
+			break;
+		case 5:
+			pCard = new CardFive();
+			break;
+		case 6:
+			pCard = new CardSix();
+			break;
+		case 7:
+			pCard = new CardSeven();
+			break;
+		case 8:
+			pCard = new CardEight();
+			break;
+		case 9:
+			pCard = new CardNine();
+			break;
+		case 10:
+			pCard = new CardTen();
+			break;
+		case 11:
+			pCard = new CardEleven();
+			break;
+		case 12:
+			pCard = new CardTwelve();
+			break;
+		}
+		pCard->Load( InFile, pGrid );
+	}
+}
+
+void Grid::ClearGrid()
+{
+	for ( int i = 0; i < NumVerticalCells; i++ )
+	{
+		for ( int j = 0; j < NumHorizontalCells; j++ )
+		{
+			if ( CellList[i][j]->GetGameObject() )
+			{
+				delete CellList[i][j]->GetGameObject();
+				CellList[i][j]->SetGameObject(NULL);
+			}
+		}
+	}
+}
 
 Grid::~Grid()
 {
@@ -295,3 +438,4 @@ Grid::~Grid()
 		delete PlayerList[i];
 	}
 }
+

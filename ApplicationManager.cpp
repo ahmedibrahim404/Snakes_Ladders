@@ -5,6 +5,8 @@
 #include "AddCardAction.h"
 #include "AddSnakeAction.h";
 #include "RollDiceAction.h"
+#include "SaveGridAction.h"
+#include "OpenGridAction.h"
 
 ///TODO: Add #include for all action types
 
@@ -89,8 +91,14 @@ void ApplicationManager::ExecuteAction(ActionType ActType)
 		
 
 		///TODO: Add a case for EACH Action type in the Design mode or Play mode
+	
+	case SAVE_GRID:
+		pAct = new SaveGridAction(this);
+		break;
 
-
+	case OPEN_GRID:
+		pAct = new OpenGridAction(this);
+		break;
 
 	case STATUS:	// a click on the status bar ==> no action
 		return;

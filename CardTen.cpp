@@ -4,6 +4,11 @@ Player* CardTen::owner = nullptr;
 int CardTen::cardPrice = 0;
 int CardTen::feesToPay = 0;
 
+CardTen::CardTen()
+{
+
+}
+
 CardTen::CardTen(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 10; // set the inherited cardNumber data member with the card number (10 here)
@@ -80,3 +85,15 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 	}
 
 }
+
+void CardTen::Save(ofstream &OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->cardPrice << "\t" << this->feesToPay << "\n";
+}
+
+void CardTen::Load(ifstream &Infile, Grid *pGrid)
+{
+	Card::Load( Infile, pGrid );
+	Infile >> cardPrice >> feesToPay;
+}
+

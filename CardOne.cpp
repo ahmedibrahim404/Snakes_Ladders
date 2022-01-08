@@ -1,5 +1,10 @@
 #include "CardOne.h"
 
+CardOne::CardOne()
+{
+
+}
+
 CardOne::CardOne(const CellPosition & pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 1; // set the inherited cardNumber data member with the card number (1 here)
@@ -49,3 +54,15 @@ void CardOne::Apply(Grid* pGrid, Player* pPlayer)
 	// 2- Decrement the wallet of pPlayer by the walletAmount data member of CardOne
 	pPlayer->SetWallet(pPlayer->GetWallet() - walletAmount);
 }
+
+void CardOne::Save(ofstream &OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->walletAmount << "\n";
+}
+
+void CardOne::Load(ifstream &Infile, Grid *pGrid)
+{
+	Card::Load( Infile, pGrid );
+	Infile >> walletAmount;
+}
+

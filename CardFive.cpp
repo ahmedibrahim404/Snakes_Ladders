@@ -1,5 +1,11 @@
 #include "CardFive.h"
 
+
+CardFive::CardFive()
+{
+
+}
+
 CardFive::CardFive(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 5; // set the inherited cardNumber data member with the card number (5 here)
@@ -22,3 +28,14 @@ void CardFive::Apply(Grid* pGrid, Player* pPlayer)
 	for (int i = 0; i < lastRolled; i++) pGrid->RollCurrentPlayer();
 
 }
+
+void CardFive::Save(ofstream &OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\n";
+}
+
+void CardFive::Load(ifstream &Infile, Grid *pGrid)
+{
+	Card::Load( Infile, pGrid );
+}
+

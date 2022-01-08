@@ -4,6 +4,11 @@ Player* CardNine::owner = nullptr;
 int CardNine::cardPrice = 0;
 int CardNine::feesToPay = 0;
 
+CardNine::CardNine()
+{
+
+}
+
 CardNine::CardNine(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 9; // set the inherited cardNumber data member with the card number (9 here)
@@ -78,3 +83,15 @@ int CardNine::getFeesToPay() {
 void CardNine::setOwner(Player* newOwner) {
 	CardNine::owner = newOwner;
 }
+
+void CardNine::Save(ofstream &OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->cardPrice << "\t" << this->feesToPay << "\n";
+}
+
+void CardNine::Load(ifstream &Infile, Grid *pGrid)
+{
+	Card::Load( Infile, pGrid );
+	Infile >> cardPrice >> feesToPay;
+}
+

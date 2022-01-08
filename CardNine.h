@@ -8,6 +8,7 @@ class CardNine : public Card
 	static int feesToPay;
 	static Player* owner;
 public:
+	CardNine();
 	CardNine(const CellPosition& pos);
 
 	virtual void ReadCardParameters(Grid* pGrid);
@@ -19,6 +20,9 @@ public:
 	static int getFeesToPay();
 
 	static void setOwner(Player *);
+
+	void Save(ofstream &OutFile);
+	void Load(ifstream &Infile, Grid *pGrid);
 
 	virtual ~CardNine(); // A Virtual Destructor
 };

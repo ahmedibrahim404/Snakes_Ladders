@@ -1,9 +1,17 @@
 #include "Card.h"
 
 
+int Card::CardsCount = 0;
+
+Card::Card()
+{
+
+}
+
 Card::Card(const CellPosition & pos) : GameObject(pos) // sets the cell position of the GameObject
 {
 	cellPosition = new CellPosition(pos.GetCellNum());
+	CardsCount++;
 }
 
 void Card::SetCardNumber(int cnum)
@@ -41,6 +49,22 @@ bool Card::IsOverlapping(GameObject* newObj) {
 	return false;
 }
 
+int Card::getCardsCount()
+{
+	return CardsCount;
+}
+
+void Card::Load(ifstream &Infile, Grid *pGrid)
+{
+	int CellNum;
+	Infile >> CellNum;
+
+	this->position = CellPosition::GetCellPositionFromNum(CellNum);
+	pGrid->AddObjectToCell(this);
+}
+
 Card::~Card()
 {
+	CardsCount--;
 }
+

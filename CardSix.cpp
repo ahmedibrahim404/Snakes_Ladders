@@ -1,5 +1,10 @@
 #include "CardSix.h"
 
+CardSix::CardSix()
+{
+
+}
+
 CardSix::CardSix(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 6; // set the inherited cardNumber data member with the card number (6 here)
@@ -31,3 +36,17 @@ void CardSix::Apply(Grid* pGrid, Player* pPlayer)
 	pGrid->UpdatePlayerCell(pPlayer, moveTo);
 
 }
+
+void CardSix::Save(ofstream &OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->moveTo.GetCellNum() << "\n";
+}
+
+void CardSix::Load(ifstream &Infile, Grid *pGrid)
+{
+	int toCell;
+	Card::Load( Infile, pGrid );
+	Infile >> toCell;
+	moveTo = CellPosition::GetCellPositionFromNum(toCell);
+}
+

@@ -12,6 +12,7 @@
 class Cell;
 class GameObject;
 class Ladder;
+class Snake;
 class Card;
 class Player;
 
@@ -71,6 +72,10 @@ public:
 
 	///TODO: add any needed setter/getter "EXCEPT" ANY setters or getters of "CellList" or "PlayerList" (Forbidden for class Responsibilities)
 
+	int GetLaddersCount();
+	int GetSnakesCount();
+	int GetCardsCount();
+
 	// ========= Other Getters =========
 	
 	Player * GetCurrentPlayer() const;	// Gets a Pointer to the Current Player	                                    
@@ -92,6 +97,12 @@ public:
 
 	void PrintErrorMessage(string msg); // Prints an error message on statusbar, Waits for mouse click then clears statusbar
 									    // We added this function once here because it is used many times by other classes
+
+	// ========= Save Grid ============
+	
+	void SaveAll( ofstream& OutFile, ObjectType type );
+	void LoadAll( ifstream& InFile, Grid *pGrid );
+	void ClearGrid();
 
 	~Grid(); // A destructor for any needed deallcations
 };
