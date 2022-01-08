@@ -3,18 +3,21 @@
 Player* CardEleven::owner = nullptr;
 int CardEleven::cardPrice = 0;
 int CardEleven::feesToPay = 0;
-
+int CardEleven::cardElevenCount = 0;
 CardEleven::CardEleven(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 11; // set the inherited cardNumber data member with the card number (11 here)
+	cardElevenCount++;
 }
 
 CardEleven::~CardEleven(void)
 {
+	cardElevenCount--;
 }
 
 void CardEleven::ReadCardParameters(Grid* pGrid)
 {
+	if (cardElevenCount != 0) return;
 
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();

@@ -53,6 +53,14 @@ void Player::preventNextTime() {
 	preventNext++;
 }
 
+bool Player::isPrevented() {
+	return preventNext > 0;
+}
+
+void Player::decreasePreventTimes() {
+	if (isPrevented()) preventNext--;
+}
+
 // ====== Drawing Functions ======
 
 void Player::Draw(Output* pOut) const
@@ -81,7 +89,7 @@ void Player::Move(Grid * pGrid, int diceNumber)
 {
 
 	///TODO: Implement this function as mentioned in the guideline steps (numbered below) below
-	if (preventNext) {
+	if (isPrevented()) {
 		preventNext--;
 		return;
 	}

@@ -3,14 +3,17 @@
 Player* CardTen::owner = nullptr;
 int CardTen::cardPrice = 0;
 int CardTen::feesToPay = 0;
+int CardTen::cardTenCount = 0;
 
 CardTen::CardTen(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 10; // set the inherited cardNumber data member with the card number (10 here)
+	cardTenCount++;
 }
 
 CardTen::~CardTen(void)
 {
+	cardTenCount--;
 }
 
 Player* CardTen::getOwner() {
@@ -32,7 +35,7 @@ void CardTen::setOwner(Player* newOwner) {
 
 void CardTen::ReadCardParameters(Grid* pGrid)
 {
-
+	if (cardTenCount != 0) return;
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 

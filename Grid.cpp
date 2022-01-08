@@ -146,6 +146,10 @@ bool Grid::GetEndGame() const
 void Grid::AdvanceCurrentPlayer()
 {
 	currPlayerNumber = (currPlayerNumber + 1) % MaxPlayerCount; // this generates value from 0 to MaxPlayerCount - 1
+	if (PlayerList[currPlayerNumber]->isPrevented()) {
+		PlayerList[currPlayerNumber]->decreasePreventTimes();
+		AdvanceCurrentPlayer();
+	}
 }
 
 void Grid::RollCurrentPlayer()
@@ -214,8 +218,7 @@ Ladder* Grid::GetNextLadder(const CellPosition& position)
 
 Player* Grid::GetNextPlayer(const CellPosition& position)
 {
-
-	int startH = position.HCell();
+	int startH = position.HCell() + 1;
 	for (int i = position.VCell(); i >= 0; i--)
 	{
 		for (int j = startH; j < NumHorizontalCells; j++) // searching from startH and RIGHT
@@ -226,9 +229,6 @@ Player* Grid::GetNextPlayer(const CellPosition& position)
 				if (currentPlayerCell.HCell() == j && currentPlayerCell.VCell() == i) return PlayerList[k];
 
 			}
-
-
-
 		}
 		startH = 0;
 	}

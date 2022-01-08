@@ -30,21 +30,17 @@ void CardEight::Apply(Grid* pGrid, Player* pPlayer)
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
-	if (pPlayer->GetWallet() < coinsToPay) {
+	if (pPlayer->GetWallet() >= coinsToPay) {
 		pOut->PrintMessage("You entered Jail and have to options: Write (0) to be prevented from playing 3 times anything else to pay " + to_string(coinsToPay) + "Coins");
 		int chose = pIn->GetInteger(pOut);
 
 		if (chose == 0) {
-			pGrid->PreventNextTime(pPlayer);
-			pGrid->PreventNextTime(pPlayer);
-			pGrid->PreventNextTime(pPlayer);
+			for(int i=0;i<3;i++) pPlayer->preventNextTime();
 		} else {
 			pPlayer->SetWallet(pPlayer->GetWallet() - coinsToPay);
 		}
 	} else {
-		pGrid->PreventNextTime(pPlayer);
-		pGrid->PreventNextTime(pPlayer);
-		pGrid->PreventNextTime(pPlayer);
+		for (int i = 0; i < 3; i++) pPlayer->preventNextTime();
 	}
 
 }

@@ -7,6 +7,7 @@ class CardTen : public Card
 	static int cardPrice;
 	static int feesToPay;
 	static Player* owner;
+	static int cardTenCount;
 public:
 	CardTen(const CellPosition& pos);
 

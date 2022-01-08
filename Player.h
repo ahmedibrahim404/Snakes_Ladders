@@ -24,7 +24,11 @@ public:
 	Player(Cell * pCell, int playerNum); // Constructor making any needed initializations
 
 	// ====== Setters and Getters ======
-	void Player::preventNextTime();
+	void preventNextTime();
+	bool isPrevented();
+	void decreasePreventTimes();
+	
+
 	void SetCell(Cell * cell);		// A setter for the pCell
 	Cell* GetCell() const;			// A getter for the pCell
 
