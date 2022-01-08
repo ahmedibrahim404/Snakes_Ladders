@@ -5,6 +5,14 @@
 #include "AddCardAction.h"
 #include "AddSnakeAction.h";
 #include "RollDiceAction.h"
+#include "CopyCardAction.h"
+#include "PasteCardAction.h"
+#include "CutCardAction.h"
+#include "DeleteObjectAction.h"
+#include "NewGameAction.h"
+#include "InputDiceValueAction.h"
+#include "SaveGridAction.h"
+#include "OpenGridAction.h"
 
 ///TODO: Add #include for all action types
 
@@ -82,13 +90,42 @@ void ApplicationManager::ExecuteAction(ActionType ActType)
 		pAct = new RollDiceAction(this);
 		break;
 
+	case COPY_CARD:
+		pAct = new CopyCardAction(this);
+		break;
+
+	case CUT_CARD:
+		pAct = new CutCardAction(this);
+		break;
+
+	case PASTE_CARD:
+		pAct = new PasteCardAction(this);
+		break;
+
+	case DELETE_OBJECT:
+		pAct = new DeleteObjectAction(this);
+		break;
+
 	case TO_DESIGN_MODE:
 		pOut->CreateDesignModeToolBar(); // temporary till you made its action class (CHANGE THIS LATTER)
 		break;
 
-		
+	case NEW_GAME:
+		pAct = new NewGameAction(this);
+		break;
+
+	case INPUT_DICE_VALUE:
+		pAct = new InputDiceValueAction(this);
+		break;
 
 		///TODO: Add a case for EACH Action type in the Design mode or Play mode
+	case SAVE_GRID:
+		pAct = new SaveGridAction(this);
+		break;
+
+	case OPEN_GRID:
+		pAct = new OpenGridAction(this);
+		break;
 
 
 

@@ -9,7 +9,7 @@ Player::Player(Cell * pCell, int playerNum) : stepCount(0), wallet(100), playerN
 {
 	this->pCell = pCell;
 	this->turnCount = 0;
-
+	this->preventNext = 0;
 	// Make all the needed initialization or validations
 }
 
@@ -49,6 +49,10 @@ int Player::getPlayerJustRolledNumber() const {
 	return justRolledDiceNum;
 }
 
+void Player::preventNextTime() {
+	preventNext++;
+}
+
 // ====== Drawing Functions ======
 
 void Player::Draw(Output* pOut) const
@@ -77,7 +81,10 @@ void Player::Move(Grid * pGrid, int diceNumber)
 {
 
 	///TODO: Implement this function as mentioned in the guideline steps (numbered below) below
-
+	if (preventNext) {
+		preventNext--;
+		return;
+	}
 
 	// == Here are some guideline steps (numbered below) to implement this function ==
 
@@ -140,4 +147,10 @@ int Player::GetMostExpensiveStationNumber() {
 	}
 
 	return stationNumber;
+}
+
+
+void Player::ResetAll() {
+	this->wallet = 0;
+	this->turnCount = 0;
 }

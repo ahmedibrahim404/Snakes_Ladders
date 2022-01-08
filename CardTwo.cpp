@@ -21,8 +21,24 @@ void CardTwo::Apply(Grid* pGrid, Player* pPlayer)
 
 	CellPosition currentCellPosition = pPlayer->GetCell()->GetCellPosition();
 	Ladder* nextLadder = pGrid->GetNextLadder(currentCellPosition);
-
-	pGrid->UpdatePlayerCell(pPlayer, nextLadder->GetEndPosition());
-
+	if (nextLadder != NULL) {
+		pGrid->UpdatePlayerCell(pPlayer, nextLadder->GetEndPosition());
+	}
 
 }
+
+Card* CardTwo::GetCopy(CellPosition& Pos)
+{
+	return new CardTwo(Pos);
+}
+
+void CardTwo::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\n";
+}
+
+void CardTwo::Load(ifstream& Infile, Grid* pGrid)
+{
+	pGrid->AddObjectToCell(this);
+}
+

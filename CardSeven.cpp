@@ -25,3 +25,19 @@ void CardSeven::Apply(Grid* pGrid, Player* pPlayer)
 	pGrid->UpdatePlayerCell(pPlayer, CellPosition(1));
 
 }
+
+Card* CardSeven::GetCopy(CellPosition& Pos)
+{
+	return new CardSeven(Pos);
+}
+
+void CardSeven::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\n";
+}
+
+void CardSeven::Load(ifstream& Infile, Grid* pGrid)
+{
+	pGrid->AddObjectToCell(this);
+}
+

@@ -394,11 +394,7 @@ void Output::DrawLadder(const CellPosition & fromCell, const CellPosition & toCe
 
 	//(done)/TODO: Validate the Cell Position (Must be Vertical Cells AND toCell above fromCell, otherwise, Do NOT draw)
 	
-	//if (toCell.VCell() <= fromCell.VCell() || toCell.HCell() != fromCell.HCell()) {
-	//	return;
-	//}
-	if ( (toCell.GetCellNum() - fromCell.GetCellNum()) % NumHorizontalCells !=0 || toCell.GetCellNum() < fromCell.GetCellNum() )
-	{
+	if (toCell.VCell() >= fromCell.VCell() || toCell.HCell() != fromCell.HCell()) {
 		return;
 	}
 	// Get the start X and Y coordinates of the upper left corner of the fromCell
@@ -459,11 +455,7 @@ void Output::DrawSnake(const CellPosition & fromCell, const CellPosition & toCel
 
 	//(done)/TODO: Validate the fromCell and toCell (Must be Vertical and toCell is below fromCell otherwise do NOT draw)
 	
-	//if (toCell.VCell() >= fromCell.VCell() || toCell.HCell() != fromCell.HCell()) {
-	//	return;
-	//}
-	if ( (fromCell.GetCellNum() - toCell.GetCellNum()) % NumHorizontalCells != 0 || fromCell.GetCellNum() < toCell.GetCellNum() )
-	{
+	if (toCell.VCell() <= fromCell.VCell() || toCell.HCell() != fromCell.HCell()) {
 		return;
 	}
 	// Get the upper left corner coordinates of the fromCell and toCell

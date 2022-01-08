@@ -44,7 +44,12 @@ void AddLadderAction::Execute()
 	if (startPos.HCell() != endPos.HCell()) {
 		pOut->PrintMessage("New Ladder: The Ladder must be vertical, Try again ...");
 		return;
-	} else {
+	}
+	else if (startPos.VCell() <= endPos.VCell()) {
+		pOut->PrintMessage("New Ladder: End Cell must be above start Cell, Try again ...");
+		return;
+	}
+	else {
 		pOut->ClearStatusBar();
 	}
 

@@ -12,14 +12,14 @@ CardSix::~CardSix(void)
 void CardSix::ReadCardParameters(Grid* pGrid)
 {
 
-
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
-	pOut->PrintMessage("New Card 6: Click the cell the player should go to ...");
 	
-	moveTo = pIn->GetCellClicked();
-
+	while (moveTo.HCell() == -1) {
+		pOut->PrintMessage("New Card 6: Click the cell the player should go to ...");
+		moveTo = pIn->GetCellClicked();
+	}
 	pOut->ClearStatusBar();
 }
 
@@ -31,3 +31,25 @@ void CardSix::Apply(Grid* pGrid, Player* pPlayer)
 	pGrid->UpdatePlayerCell(pPlayer, moveTo);
 
 }
+
+Card* CardSix::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardSix(Pos);
+	((CardSix*)pCard)->walletAmount = walletAmount;
+	((CardSix*)pCard)->moveTo = moveTo;
+	return pCard;
+}
+
+void CardSix::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->moveTo.GetCellNum() << "\n";
+}
+
+void CardSix::Load(ifstream& Infile, Grid* pGrid)
+{
+	int toCell;
+	Infile >> toCell;
+	moveTo = CellPosition::GetCellPositionFromNum(toCell);
+	pGrid->AddObjectToCell(this);
+}
+

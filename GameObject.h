@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Grid.h"
+#include <fstream>
 
 // Base Class for All Game Objects ( ladders, snakes and cards )
 class GameObject
@@ -24,6 +25,9 @@ public:
 	virtual void Apply(Grid* pGrid, Player* pPlayer) = 0;  // Applys the effect of the GameObject on the passed Player
 	                                                       // (The effect depends on the GameObject type, so virtual)
 	                                                       // For example, applying a ladder is by moving player up, and so on
+
+	virtual void Save(ofstream& OutFile) = 0;	// Saves the GameObject parameters to the file
+	virtual void Load(ifstream& Infile, Grid* pGrid) = 0;	// Loads and Reads the GameObject parameters from the file
 
 	// The following functions are examples of what should be supported by the GameObject class
 	// They should be overridden by each inherited class

@@ -20,6 +20,10 @@ public:
 
 	static void setOwner(Player*);
 
+	virtual Card* GetCopy(CellPosition&);
+	void Save(ofstream& OutFile);
+	void Load(ifstream& Infile, Grid* pGrid);
+
 	virtual ~CardEleven(); // A Virtual Destructor
 };
 

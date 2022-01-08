@@ -44,6 +44,10 @@ void AddSnakeAction::Execute()
 
 	if (startPos.HCell() != endPos.HCell()) {
 		pOut->PrintMessage("New Snake: The Snake must be vertical, Try again ...");
+		return;
+	} else if (startPos.VCell() >= endPos.VCell()) {
+		pOut->PrintMessage("New Snake: End Cell must be below start Cell, Try again ...");
+		return;
 	}
 	else {
 		pOut->ClearStatusBar();

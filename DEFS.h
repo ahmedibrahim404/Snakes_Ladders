@@ -40,4 +40,12 @@ enum ActionType // The actions supported (add more as needed)
 	STATUS 				// Inside StatusBar Area
 };
 
+enum ObjectType
+{
+	TypeLadder,
+	TypeSnake,
+	TypeCard
+};
+
+
 #endif

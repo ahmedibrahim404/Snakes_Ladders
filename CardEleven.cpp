@@ -80,3 +80,21 @@ int CardEleven::getFeesToPay() {
 void CardEleven::setOwner(Player* newOwner) {
 	CardEleven::owner = newOwner;
 }
+
+Card* CardEleven::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardEleven(Pos);
+	return pCard;
+}
+
+void CardEleven::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->cardPrice << "\t" << this->feesToPay << "\n";
+}
+
+void CardEleven::Load(ifstream& Infile, Grid* pGrid)
+{
+	Infile >> cardPrice >> feesToPay;
+	pGrid->AddObjectToCell(this);
+}
+

@@ -26,3 +26,20 @@ void CardThree::Apply(Grid* pGrid, Player* pPlayer)
 	*/
 
 }
+
+Card* CardThree::GetCopy(CellPosition& Pos)
+{
+	return new CardThree(Pos);
+}
+
+void CardThree::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\n";
+}
+
+void CardThree::Load(ifstream& Infile, Grid* pGrid)
+{
+	pGrid->AddObjectToCell(this);
+}
+
+

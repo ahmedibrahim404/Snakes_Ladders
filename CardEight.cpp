@@ -2,7 +2,7 @@
 
 CardEight::CardEight(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
-	cardNumber = 7; // set the inherited cardNumber data member with the card number (7 here)
+	cardNumber = 8; // set the inherited cardNumber data member with the card number (8 here)
 }
 
 CardEight::~CardEight(void)
@@ -11,8 +11,6 @@ CardEight::~CardEight(void)
 
 void CardEight::ReadCardParameters(Grid* pGrid)
 {
-
-
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
@@ -50,3 +48,22 @@ void CardEight::Apply(Grid* pGrid, Player* pPlayer)
 	}
 
 }
+
+Card* CardEight::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardEight(Pos);
+	((CardEight*)pCard)->coinsToPay = coinsToPay;
+	return pCard;
+}
+
+void CardEight::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->coinsToPay << "\n";
+}
+
+void CardEight::Load(ifstream& Infile, Grid* pGrid)
+{
+	Infile >> coinsToPay;
+	pGrid->AddObjectToCell(this);
+}
+

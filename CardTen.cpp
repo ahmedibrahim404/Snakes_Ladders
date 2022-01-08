@@ -80,3 +80,21 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 	}
 
 }
+
+Card* CardTen::GetCopy(CellPosition& Pos)
+{
+	Card* pCard = new CardTen(Pos);
+	return pCard;
+}
+
+void CardTen::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->cardPrice << "\t" << this->feesToPay << "\n";
+}
+
+void CardTen::Load(ifstream& Infile, Grid* pGrid)
+{
+	Infile >> cardPrice >> feesToPay;
+	pGrid->AddObjectToCell(this);
+}
+

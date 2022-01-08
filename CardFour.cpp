@@ -26,3 +26,19 @@ void CardFour::Apply(Grid* pGrid, Player* pPlayer)
 	*/
 
 }
+
+Card* CardFour::GetCopy(CellPosition& Pos)
+{
+	return new CardFour(Pos);
+}
+
+void CardFour::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\n";
+}
+
+void CardFour::Load(ifstream& Infile, Grid* pGrid)
+{
+	pGrid->AddObjectToCell(this);
+}
+
