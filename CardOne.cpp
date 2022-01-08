@@ -13,9 +13,6 @@ void CardOne::ReadCardParameters(Grid * pGrid)
 {
 	
 	
-	///TODO: Implement this function as mentioned in the guideline steps (numbered below) below
-	// == Here are some guideline steps (numbered below) (numbered below) to implement this function ==
-
 
 	// 1- Get a Pointer to the Input / Output Interfaces from the Grid
 	Output* pOut = pGrid->GetOutput();
@@ -47,7 +44,12 @@ void CardOne::Apply(Grid* pGrid, Player* pPlayer)
 	Card::Apply(pGrid, pPlayer);
 
 	// 2- Decrement the wallet of pPlayer by the walletAmount data member of CardOne
-	pPlayer->SetWallet(pPlayer->GetWallet() - walletAmount);
+	Output* pOut = pGrid->GetOutput();
+
+	pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": you will be charged " + to_string(walletAmount));
+	
+	// if the player has less than walletAmount, set to be zero
+	pPlayer->SetWallet(max(0, pPlayer->GetWallet() - walletAmount));
 }
 
 Card* CardOne::GetCopy(CellPosition& Pos)

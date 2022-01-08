@@ -128,27 +128,27 @@ void Player::AppendPlayerInfo(string & playersInfo) const
 	playersInfo += to_string(turnCount) + ")";
 }
 
-int Player::GetMostExpensiveStationNumber() {
+int Player::GetMostExpensiveStationNumber() { // return the number of the most expensive cell the player has
 	
-	int stationNumber = -1;
-	int stationPrice = 0;
+	int stationNumber = -1; // initially -1
+	int stationPrice = 0; 
 
-	if (CardNine::getOwner() == this) {
-		if (CardNine::getPrice() > stationPrice) {
+	if (CardNine::getOwner() == this) { // check the ownership of card 9
+		if (CardNine::getPrice() > stationPrice) { // check if card 9 is the most expensive one 
 			stationPrice = CardNine::getPrice();
 			stationNumber = 9;
 		}
 	}
 
-	if (CardTen::getOwner() == this) {
-		if (CardTen::getPrice() > stationPrice) {
+	if (CardTen::getOwner() == this) { // check the ownership of card 10
+		if (CardTen::getPrice() > stationPrice) {  // check if card 10 is the most expensive one
 			stationPrice = CardTen::getPrice();
 			stationNumber = 10;
 		}
 	}
 
-	if (CardEleven::getOwner() == this) {
-		if (CardEleven::getPrice() > stationPrice) {
+	if (CardEleven::getOwner() == this) { // check the ownership of card 11
+		if (CardEleven::getPrice() > stationPrice) {  // check if card 11 is the most expensive one
 			stationPrice = CardEleven::getPrice();
 			stationNumber = 11;
 		}

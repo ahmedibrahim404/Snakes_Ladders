@@ -18,11 +18,26 @@ void CardSeven::Apply(Grid* pGrid, Player* pPlayer)
 
 	Card::Apply(pGrid, pPlayer);
 
+	Output* pOut = pGrid->GetOutput();
+
+	// get current player position
 	CellPosition currentCellPlayer = pPlayer->GetCell()->GetCellPosition();
+
+	// get first player after this position
 	Player* nextPlayer = pGrid->GetNextPlayer(currentCellPlayer);
 	
+	// if no player, ignore
 	if (nextPlayer == NULL) return;
-	pGrid->UpdatePlayerCell(pPlayer, CellPosition(1));
+
+	pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": First player after you i.e. Player"+ to_string(nextPlayer->getPlayerNumber()) + " will go to cell 1");
+	// update position of next player to be 1
+	pGrid->UpdatePlayerCell(nextPlayer, CellPosition(1));
+	// if the is any (Card, Ladder, Snake) take it
+	if (nextPlayer->GetCell()->GetGameObject()) {
+		nextPlayer->GetCell()->GetGameObject()->Apply(pGrid, nextPlayer);
+	}
+
+
 
 }
 

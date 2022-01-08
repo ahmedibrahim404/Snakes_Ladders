@@ -15,11 +15,12 @@ void CardSix::ReadCardParameters(Grid* pGrid)
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
-	
+	// while the selected cell is not valid, ask user to enter it
 	while (moveTo.HCell() == -1) {
 		pOut->PrintMessage("New Card 6: Click the cell the player should go to ...");
 		moveTo = pIn->GetCellClicked();
 	}
+
 	pOut->ClearStatusBar();
 }
 
@@ -28,6 +29,7 @@ void CardSix::Apply(Grid* pGrid, Player* pPlayer)
 
 	Card::Apply(pGrid, pPlayer);
 
+	// update player cell
 	pGrid->UpdatePlayerCell(pPlayer, moveTo);
 
 }

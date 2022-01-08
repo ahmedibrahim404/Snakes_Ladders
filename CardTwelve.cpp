@@ -25,8 +25,16 @@ void CardTwelve::Apply(Grid* pGrid, Player* pPlayer)
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
+	// get poorest player in the play
 	Player* poorest = pGrid->GetPoorestPlayer();
+
+	// get most expensive station of the current player
 	int mostExpensive = pPlayer->GetMostExpensiveStationNumber();
+	
+	if (poorest == pPlayer) {
+		pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": None will take you station, You are already the poorest player here :(");
+		return;
+	}
 
 	if (mostExpensive == -1) return;// not found
 

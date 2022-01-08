@@ -41,15 +41,15 @@ void Card::Apply(Grid* pGrid, Player* pPlayer)
 
 
 bool Card::IsOverlapping(GameObject* newObj) {
-	return false;
+	return false; // overlapping of cards will be automatically detected in Grid Class
 }
 
 int Card::getCardsCount()
 {
-	return CardsCount;
+	return CardsCount; // return the count of all cards of the grid
 }
 
-Card::~Card()
+Card::~Card() // destructor
 {
 	CardsCount--;
 }

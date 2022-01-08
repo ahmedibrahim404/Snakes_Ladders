@@ -42,25 +42,34 @@ void CardEleven::Apply(Grid* pGrid, Player* pPlayer)
 
 	if (owner == nullptr) { // if station is not bought
 
+		// if player can afford for it
 		if (pPlayer->GetWallet() < cardPrice) return;
 
-		pOut->PrintMessage("Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
+		// print message to player
+		pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
 		int chose = pIn->GetInteger(pOut);
-		if (chose == 1) {
+		
+		if (chose == 1) { // if option is to buy
+			CardEleven::owner = pPlayer;
 			pPlayer->SetWallet(pPlayer->GetWallet() - cardPrice);
 		}
-		CardEleven::owner = pPlayer;
+
+		pOut->ClearStatusBar();
 
 	}
 	else {
 
-		if (pPlayer != owner) {
-			pOut->PrintMessage("You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()));
+		if (pPlayer != owner) { // if the player passed is not the owner
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()) + " because you are in their land");
+			
+			// take from the player passed feesToPay coins
+			// note wallet may be negative
 			pPlayer->SetWallet(pPlayer->GetWallet() - feesToPay);
+			
+			// give to the owner the coins
 			owner->SetWallet(owner->GetWallet() + feesToPay);
-		}
-		else {
-			pOut->PrintMessage("Welcome to Your station");
+		} else {
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Welcome to Your station, Sir");
 		}
 
 	}

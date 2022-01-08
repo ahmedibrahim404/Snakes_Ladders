@@ -17,13 +17,12 @@ void CardFour::Apply(Grid* pGrid, Player* pPlayer)
 {
 
 	Card::Apply(pGrid, pPlayer);
+	
+	Output* pOut = pGrid->GetOutput();
 
-	pGrid->PreventNextTime(pPlayer);
-
-	/*
-	//Alternative:
-	for(int i=0;i<MaxPlayerCount-1;i++) pGrid->AdvanceCurrentPlayer();
-	*/
+	// prevent player from playing next time
+	pPlayer->preventNextTime();
+	pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": you will be prevented from playing the next turn");
 
 }
 

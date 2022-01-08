@@ -29,6 +29,11 @@ void Ladder::Apply(Grid* pGrid, Player* pPlayer)
 	//    Review the "pGrid" functions and decide which function can be used for that
 	pGrid->UpdatePlayerCell(pPlayer, GetEndPosition());
 
+	// if reached any card, take it
+	if (pPlayer->GetCell()->GetGameObject()) {
+		pPlayer->GetCell()->GetGameObject()->Apply(pGrid, pPlayer);
+	}
+
 }
 
 CellPosition Ladder::GetEndPosition() const
@@ -38,14 +43,18 @@ CellPosition Ladder::GetEndPosition() const
 
 bool Ladder::IsOverlapping(GameObject* newObj) {
 
+	// if the object is ladder
 	Ladder* l = dynamic_cast<Ladder*>(newObj);
 	bool isOverlap = false;
+
 	if (l != nullptr) {
+		// check if both overlap
 		isOverlap |= !(position.VCell() < l->GetEndPosition().VCell() || l->GetPosition().VCell() < endCellPos.VCell());
 	}
-
+	// if snake
 	Snake* s = dynamic_cast<Snake*>(newObj);
 	if (s != nullptr) {
+		// check that both doesn't share start cell of end cell
 		isOverlap |= GetEndPosition().GetCellNum() == s->GetPosition().GetCellNum();
 		isOverlap |= GetPosition().GetCellNum() == s->GetEndPosition().GetCellNum();
 	}

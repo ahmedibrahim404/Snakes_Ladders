@@ -61,23 +61,24 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 
 		if (pPlayer->GetWallet() < cardPrice) return;
 
-		pOut->PrintMessage("Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
+		pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
 		int chose = pIn->GetInteger(pOut);
 		if (chose == 1) {
 			pPlayer->SetWallet(pPlayer->GetWallet() - cardPrice);
+			CardTen::owner = pPlayer;
 		}
-		CardTen::owner = pPlayer;
+		pOut->ClearStatusBar();
 
 	}
 	else {
 
 		if (pPlayer != owner) {
-			pOut->PrintMessage("You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()));
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()) + " because you are in their land");
 			pPlayer->SetWallet(pPlayer->GetWallet() - feesToPay);
 			owner->SetWallet(owner->GetWallet() + feesToPay);
 		}
 		else {
-			pOut->PrintMessage("Welcome to Your station");
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Welcome to Your station, Sir");
 		}
 
 	}

@@ -224,7 +224,6 @@ Player* Grid::GetNextPlayer(const CellPosition& position)
 		for (int j = startH; j < NumHorizontalCells; j++) // searching from startH and RIGHT
 		{
 			for (int k = 0; k < MaxPlayerCount; k++) {
-
 				CellPosition currentPlayerCell = PlayerList[k]->GetCell()->GetCellPosition();
 				if (currentPlayerCell.HCell() == j && currentPlayerCell.VCell() == i) return PlayerList[k];
 
