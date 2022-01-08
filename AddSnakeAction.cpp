@@ -1,39 +1,40 @@
-#include "AddLadderAction.h"
+#include "AddSnakeAction.h"
 #include <windows.h> // for delay function
 
 #include "Input.h"
 #include "Output.h"
-#include "Ladder.h"
+#include "Snake.h"
 
-AddLadderAction::AddLadderAction(ApplicationManager *pApp) : Action(pApp)
+AddSnakeAction::AddSnakeAction(ApplicationManager* pApp) : Action(pApp)
 {
 	// Initializes the pManager pointer of Action with the passed pointer
 }
 
-AddLadderAction::~AddLadderAction()
+AddSnakeAction::~AddSnakeAction()
 {
 }
 
-void AddLadderAction::ReadActionParameters() 
-{	
+void AddSnakeAction::ReadActionParameters()
+{
 	// Get a Pointer to the Input / Output Interfaces
 	Grid* pGrid = pManager->GetGrid();
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
 	// Read the startPos parameter
-	pOut->PrintMessage("New Ladder: Click on its Start Cell ...");
+	pOut->PrintMessage("New Snake: Click on its Start Cell ...");
 	startPos = pIn->GetCellClicked();
 
 	// Read the endPos parameter
-	pOut->PrintMessage("New Ladder: Click on its End Cell ...");
+	pOut->PrintMessage("New Snake: Click on its End Cell ...");
 	endPos = pIn->GetCellClicked();
-	
+
+
 }
 
 
 // Execute the action
-void AddLadderAction::Execute() 
+void AddSnakeAction::Execute()
 {
 	// The first line of any Action Execution is to read its parameter first 
 	// and hence initializes its data members
@@ -42,20 +43,21 @@ void AddLadderAction::Execute()
 	Output* pOut = pGrid->GetOutput();
 
 	if (startPos.HCell() != endPos.HCell()) {
-		pOut->PrintMessage("New Ladder: The Ladder must be vertical, Try again ...");
-		return;
-	} else {
+		pOut->PrintMessage("New Snake: The Snake must be vertical, Try again ...");
+	}
+	else {
 		pOut->ClearStatusBar();
 	}
 
 	// Create a Ladder object with the parameters read from the user
-	Ladder * pLadder = new Ladder(startPos, endPos);
+	Snake* pSnake = new Snake(startPos, endPos);
+
 
 	// Add the card object to the GameObject of its Cell:
-	bool added = pGrid->AddObjectToCell(pLadder);
+	bool added = pGrid->AddObjectToCell(pSnake);
 
 	// if the GameObject cannot be added
-	if (! added)
+	if (!added)
 	{
 		// Print an appropriate message
 		pGrid->PrintErrorMessage("Error: Cell already has an object ! Click to continue ...");

@@ -3,8 +3,22 @@
 #include "Cell.h"
 #include "GameObject.h"
 #include "Ladder.h"
-#include "Card.h"
+#include "Snake.h"
 #include "Player.h"
+#include "Card.h"
+
+#include "CardOne.h"
+#include "CardTwo.h"
+#include "CardThree.h"
+#include "CardFour.h"
+#include "CardFive.h"
+#include "CardSix.h"
+#include "CardSeven.h"
+#include "CardEight.h"
+#include "CardNine.h"
+#include "CardTen.h"
+#include "CardEleven.h"
+#include "CardTwelve.h"
 
 Grid::Grid(Input * pIn, Output * pOut) : pIn(pIn), pOut(pOut) // Initializing pIn, pOut
 {
@@ -16,12 +30,14 @@ Grid::Grid(Input * pIn, Output * pOut) : pIn(pIn), pOut(pOut) // Initializing pI
 			CellList[i][j] = new Cell(i, j);
 		}
 	}
+	preventNext = new int[MaxPlayerCount];
 
 	// Allocate thePlayer Objects of the PlayerList
 	for (int i = 0; i < MaxPlayerCount; i++) 
 	{
 		PlayerList[i] = new Player(CellList[NumVerticalCells-1][0], i); // first cell
 		PlayerList[i]->Draw(pOut); // initially draw players in the first cell
+		preventNext[i] = 0;
 	}
 
 	// Initialize currPlayerNumber with 0 (first player)
@@ -32,6 +48,7 @@ Grid::Grid(Input * pIn, Output * pOut) : pIn(pIn), pOut(pOut) // Initializing pI
 
 	// Initialize endGame with false
 	endGame = false;
+
 }
 
 
@@ -48,6 +65,8 @@ bool Grid::AddObjectToCell(GameObject * pNewObject)  // think if any validation 
 		GameObject * pPrevObject = CellList[pos.VCell()][pos.HCell()]->GetGameObject();
 		if( pPrevObject)  // the cell already contains a game object
 			return false; // do NOT add and return false
+		
+		if (IsOverlapping(pNewObject)) return false;
 
 		// Set the game object of the Cell with the new game object
 		CellList[pos.VCell()][pos.HCell()]->SetGameObject(pNewObject);
@@ -79,6 +98,16 @@ void Grid::UpdatePlayerCell(Player * player, const CellPosition & newPosition)
 
 	// Draw the player's circle on the new cell position
 	player->Draw(pOut);
+}
+
+bool Grid::IsOverlapping(GameObject* p) {
+	int hCell = p->GetPosition().HCell();
+	for (int i = 0; i < NumVerticalCells; i++) {
+		GameObject* curCell = CellList[i][hCell]->GetGameObject();
+		if (p->IsOverlapping(curCell))
+			return true;
+	}
+	return false;
 }
 
 
@@ -119,6 +148,32 @@ bool Grid::GetEndGame() const
 void Grid::AdvanceCurrentPlayer()
 {
 	currPlayerNumber = (currPlayerNumber + 1) % MaxPlayerCount; // this generates value from 0 to MaxPlayerCount - 1
+	if (preventNext[currPlayerNumber] > 0) {
+		AdvanceCurrentPlayer();
+		preventNext[currPlayerNumber] --;
+	}
+}
+
+void Grid::RollCurrentPlayer()
+{
+	currPlayerNumber = (currPlayerNumber - 1 + MaxPlayerCount) % MaxPlayerCount; // this generates value from 0 to MaxPlayerCount - 1
+}
+
+void Grid::PreventNextTime(Player* currentPlayer) {
+	preventNext[currentPlayer->getPlayerNumber()] ++;
+}
+
+int Grid::GetLaddersCount()
+{
+	return Ladder::getLaddersCount();
+}
+int Grid::GetSnakesCount()
+{
+	return Snake::getSnakesCount();
+}
+int Grid::GetCardsCount()
+{
+	return Card::getCardsCount();
 }
 
 // ========= Other Getters =========
@@ -137,7 +192,10 @@ Ladder * Grid::GetNextLadder(const CellPosition & position)
 	{
 		for (int j = startH; j < NumHorizontalCells; j++) // searching from startH and RIGHT
 		{
-
+			Ladder* nextLadder = CellList[i][j]->HasLadder();
+			if (nextLadder != NULL) {
+				return nextLadder;
+			}
 
 			///TODO: Check if CellList[i][j] has a ladder, if yes return it
 			
@@ -148,6 +206,41 @@ Ladder * Grid::GetNextLadder(const CellPosition & position)
 	return NULL; // not found
 }
 
+Player* Grid::GetNextPlayer(const CellPosition& position)
+{
+
+	int startH = position.HCell(); 
+	for (int i = position.VCell(); i >= 0; i--) 
+	{
+		for (int j = startH; j < NumHorizontalCells; j++) // searching from startH and RIGHT
+		{
+			for (int k = 0; k < MaxPlayerCount; k++) {
+				
+				CellPosition currentPlayerCell = PlayerList[k]->GetCell()->GetCellPosition();
+				if (currentPlayerCell.HCell() == j && currentPlayerCell.VCell() == i) return PlayerList[k];
+			
+			}
+
+
+
+		}
+		startH = 0;
+	}
+	return NULL;
+}
+
+Player* Grid::GetPoorestPlayer() {
+
+	Player* poorest = PlayerList[0];
+	for (int i = 0; i < MaxPlayerCount; i++) {
+		if (poorest->GetWallet() > PlayerList[i]->GetWallet()) {
+			poorest = PlayerList[i];
+		}
+	}
+
+	return poorest;
+
+}
 
 // ========= User Interface Functions =========
 
@@ -208,6 +301,122 @@ void Grid::PrintErrorMessage(string msg)
 	pOut->ClearStatusBar();
 }
 
+// ========= Save Grid ============
+
+void Grid::SaveAll( ofstream& OutFile, ObjectType type )
+{
+	for ( int i = 0; i < NumVerticalCells; i++ )
+	{
+		for ( int j = 0; j < NumHorizontalCells; j++ )
+		{
+			if ( type == ObjectType::TypeLadder )
+			{
+				if ( CellList[i][j]->HasLadder() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+			else if ( type == ObjectType::TypeSnake )
+			{
+				if ( CellList[i][j]->HasSnake() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+			else if ( type == ObjectType::TypeCard )
+			{
+				if ( CellList[i][j]->HasCard() )
+				{
+					CellList[i][j]->GetGameObject()->Save( OutFile );
+				}
+			}
+		}
+	}
+}
+
+void Grid::LoadAll( ifstream& InFile, Grid *pGrid )
+{
+	int LaddersNum, SnakesNum, CardsNum, CardType;
+	Ladder *pLadder;
+	Snake *pSnake;
+	Card *pCard;
+	
+	InFile >> LaddersNum;
+	while ( LaddersNum-- )
+	{
+		pLadder = new Ladder;
+		pLadder->Load( InFile , pGrid );
+	}
+
+	InFile >> SnakesNum;
+	while ( SnakesNum-- )
+	{
+		pSnake = new Snake;
+		pSnake->Load( InFile , pGrid );
+	}
+	
+	InFile >> CardsNum;
+	while ( CardsNum-- )
+	{
+		InFile >> CardType;
+		
+		switch ( CardType )
+		{
+		case 1:
+			pCard = new CardOne();
+			break;
+		case 2:
+			pCard = new CardTwo();
+			break;
+		case 3:
+			pCard = new CardThree();
+			break;
+		case 4:
+			pCard = new CardFour();
+			break;
+		case 5:
+			pCard = new CardFive();
+			break;
+		case 6:
+			pCard = new CardSix();
+			break;
+		case 7:
+			pCard = new CardSeven();
+			break;
+		case 8:
+			pCard = new CardEight();
+			break;
+		case 9:
+			pCard = new CardNine();
+			break;
+		case 10:
+			pCard = new CardTen();
+			break;
+		case 11:
+			pCard = new CardEleven();
+			break;
+		case 12:
+			pCard = new CardTwelve();
+			break;
+		}
+		pCard->Load( InFile, pGrid );
+	}
+}
+
+void Grid::ClearGrid()
+{
+	for ( int i = 0; i < NumVerticalCells; i++ )
+	{
+		for ( int j = 0; j < NumHorizontalCells; j++ )
+		{
+			if ( CellList[i][j]->GetGameObject() )
+			{
+				delete CellList[i][j]->GetGameObject();
+				CellList[i][j]->SetGameObject(NULL);
+			}
+		}
+	}
+}
 
 Grid::~Grid()
 {
@@ -229,3 +438,4 @@ Grid::~Grid()
 		delete PlayerList[i];
 	}
 }
+

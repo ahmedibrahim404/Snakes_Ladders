@@ -8,10 +8,13 @@
 // it may have additional data members and functions like: Apply(), ...etc. which have different implementation depending on Card Number
 class Card : public GameObject
 {
+	static int CardsCount;			// A static member to get the created cards count
 protected:
 	int cardNumber; // an integer representing the card number
-
+	const CellPosition *cellPosition;
 public:
+
+	Card();
 	Card(const CellPosition & pos); // A Constructor for card that takes the cell position of it
 
 	void SetCardNumber(int cnum);   // The setter of card number
@@ -25,6 +28,12 @@ public:
 
 	virtual void Apply(Grid* pGrid, Player* pPlayer);  // It applies the effect of the Card Type on the passed player
 	                                                   // It is a virtual function (implementation depends on Card Type)
+	virtual bool IsOverlapping(GameObject* newObj);
+
+	static int getCardsCount();
+
+	virtual void Save(ofstream &OutFile) = 0;
+	virtual void Load(ifstream &Infile, Grid *pGrid);
 
 	virtual ~Card(); // A Virtual Destructor
 };

@@ -6,11 +6,13 @@
 #include "Input.h"
 #include "Output.h"
 #include "CellPosition.h"
+#include "Player.h"
 
 // forward declarations (the includes are in the cpp)
 class Cell;
 class GameObject;
 class Ladder;
+class Snake;
 class Card;
 class Player;
 
@@ -30,6 +32,8 @@ class Grid
 	Card * Clipboard;	   // This is used in copy/cut/paste card (should be set in copy/cut and got in paste)
 
 	bool endGame;	       // A boolean indicating if the Game is ended or not (a player reaches the end cell of the grid or not)
+
+	int* preventNext; // array to check if player should be prevented from play next time(card 4)
 
 public:
 
@@ -60,14 +64,28 @@ public:
 	void SetEndGame(bool endGame);	 // A setter for endGame data member
 	bool GetEndGame() const;		 // A getter for endGame data member
 
+
 	void AdvanceCurrentPlayer();     // Increments the currPlayerNum and if reaches MaxPlayerCount reset to 0 (using %)
+	void RollCurrentPlayer();     // Decrements the currPlayerNum
+
+	void PreventNextTime(Player*);
 
 	///TODO: add any needed setter/getter "EXCEPT" ANY setters or getters of "CellList" or "PlayerList" (Forbidden for class Responsibilities)
+
+	int GetLaddersCount();
+	int GetSnakesCount();
+	int GetCardsCount();
 
 	// ========= Other Getters =========
 	
 	Player * GetCurrentPlayer() const;	// Gets a Pointer to the Current Player	                                    
 	Ladder * GetNextLadder(const CellPosition & position);  // Gets a Pointer to the first Ladder after the passed "position"
+	
+	Player* GetNextPlayer(const CellPosition& position);  // Gets a Pointer to the first player after the passed "position"
+
+	Player* GetPoorestPlayer();
+
+	bool Grid::IsOverlapping(GameObject* p);
 
 	// ========= User Interface Functions =========
 
@@ -79,6 +97,12 @@ public:
 
 	void PrintErrorMessage(string msg); // Prints an error message on statusbar, Waits for mouse click then clears statusbar
 									    // We added this function once here because it is used many times by other classes
+
+	// ========= Save Grid ============
+	
+	void SaveAll( ofstream& OutFile, ObjectType type );
+	void LoadAll( ifstream& InFile, Grid *pGrid );
+	void ClearGrid();
 
 	~Grid(); // A destructor for any needed deallcations
 };
