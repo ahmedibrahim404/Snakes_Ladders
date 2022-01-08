@@ -4,9 +4,10 @@
 
 class InputDiceValueAction : public Action
 {
-
+	// No parameters for this action
 
 public:
+	
 	InputDiceValueAction(ApplicationManager* pApp);
 
 	virtual void ReadActionParameters();

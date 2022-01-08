@@ -1,10 +1,13 @@
 #pragma once
+
 #include "Action.h"
 #include "GameObject.h"
+
 class DeleteObjectAction : public Action
 {
-	CellPosition ObjectPosition;
-	GameObject* pObj;
+	// [Action Parameters]
+	CellPosition ObjectPosition;	// 1- The cell position of the object
+	GameObject* pObj;				// 2- The object'll be deleted
 
 public:
 

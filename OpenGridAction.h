@@ -1,12 +1,14 @@
 #pragma once
-#include <iostream>
+
 #include "action.h"
 #include "Grid.h"
 #include "Input.h"
 #include "Output.h"
+
 #include "Ladder.h"
 #include "Snake.h"
 #include "Card.h"
+
 #include "CardOne.h"
 #include "CardTwo.h"
 #include "CardThree.h"
@@ -19,11 +21,13 @@
 #include "CardTen.h"
 #include "CardEleven.h"
 #include "CardTwelve.h"
+
 #include <fstream>
 
 class OpenGridAction : public Action
 {
-	string FileName;
+	// [Actions Parameters]
+	string FileName;	// The name of the saved file
 public:
 	OpenGridAction(ApplicationManager* pApp);
 

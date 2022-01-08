@@ -4,9 +4,7 @@
 
 class RollDiceAction : public Action
 {
-
 	// No parameters for this action
-
 public:
 	RollDiceAction(ApplicationManager *pApp);
 

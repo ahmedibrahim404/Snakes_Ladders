@@ -1,4 +1,5 @@
 #include "PasteCardAction.h"
+
 #include "Grid.h"
 
 PasteCardAction::PasteCardAction(ApplicationManager* pApp) : Action(pApp)
@@ -17,33 +18,38 @@ void PasteCardAction::ReadActionParameters()
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
-	pOut->PrintMessage("please click on the cell you want to paste the card in...");
+	pOut->PrintMessage("Please click on the cell you want to paste the card in ...");
 	CardPos = pIn->GetCellClicked();
 }
 
 void PasteCardAction::Execute()
 {
-	// Get a Pointer to the Input / Output Interfaces
 	ReadActionParameters();
+
+	// Get a Pointer to the Input / Output Interfaces
 	Grid* pGrid = pManager->GetGrid();
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
 	pCard = pGrid->GetClipboard();
 
-	if (pCard == NULL) {
-		pOut->PrintMessage("There is no card copied or cut ! please copy or cur a card first");
+	if (pCard == NULL)		// Check if there's a card copied or cut to be pasted
+	{
+		pOut->PrintMessage("Error: There is No copied or cut card! Please copy/cut a card first ... ");
 	}
-
-	else {
+	else 
+	{
 		Card* pCopiedCard = pCard->GetCopy(CardPos);
 		bool ok = pGrid->AddObjectToCell(pCopiedCard);
-		if (!ok) {
-			pOut->PrintMessage("Error !! the cell must be empty and valid");
+		if (!ok)
+		{
+			pOut->PrintMessage("Invalid Cell!");
 		}
-		else {
+		else 
+		{
 			pCopiedCard->Draw(pOut);
-			pOut->PrintMessage("Card is pasted successfully !!");
+			pOut->PrintMessage("Card is pasted successfully!");
 		}
 	}
 }
+

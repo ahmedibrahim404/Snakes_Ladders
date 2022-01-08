@@ -7,6 +7,7 @@ class AddLadderAction : public Action
 	// Always add action parameters as private data members
 
 	// [Action Parameters]
+	
 	CellPosition startPos; // 1- The start position of the ladder
 	CellPosition endPos;   // 2- The end position of the ladder
 

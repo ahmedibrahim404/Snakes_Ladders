@@ -8,7 +8,8 @@
 
 class SaveGridAction : public Action
 {
-	string Fname;
+	// [Actions Parameters]
+	string Fname;			// The name of the saved file
 public:
 
 	SaveGridAction(ApplicationManager* pApp);

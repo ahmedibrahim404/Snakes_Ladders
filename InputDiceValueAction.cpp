@@ -23,21 +23,25 @@ void InputDiceValueAction::Execute()
 
 
 	if (pGrid->GetEndGame()) return;
-	pOut->PrintMessage("Enter a value to dice (instead of being random)");
+	pOut->PrintMessage("Enter a value to dice (from 1 to 6)...");
 
 	int diceNumber = pIn->GetInteger(pOut); // from 1 to 6 --> should change seed
 
-	if (diceNumber < 1 || diceNumber > 6) {
+	if (diceNumber < 1 || diceNumber > 6) 
+	{
 		srand((int)time(NULL));
 		diceNumber = 1 + rand() % 6;
 	}
+	
 	pOut->ClearStatusBar();
 
 	Player* p = pGrid->GetCurrentPlayer();
 	
+	pOut->PrintMessage("Player " + to_string(p->getPlayerNumber()) + " has rolled " + to_string(diceNumber) + " ...");
+
 	p->Move(pGrid, diceNumber);
-	
 	pGrid->AdvanceCurrentPlayer();
+
 }
 
 InputDiceValueAction::~InputDiceValueAction()
