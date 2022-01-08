@@ -9,7 +9,7 @@ Player::Player(Cell * pCell, int playerNum) : stepCount(0), wallet(100), playerN
 {
 	this->pCell = pCell;
 	this->turnCount = 0;
-
+	this->preventNext = 0;
 	// Make all the needed initialization or validations
 }
 
@@ -49,6 +49,18 @@ int Player::getPlayerJustRolledNumber() const {
 	return justRolledDiceNum;
 }
 
+void Player::preventNextTime() {
+	preventNext++;
+}
+
+bool Player::isPrevented() {
+	return preventNext > 0;
+}
+
+void Player::decreasePreventTimes() {
+	if (isPrevented()) preventNext--;
+}
+
 // ====== Drawing Functions ======
 
 void Player::Draw(Output* pOut) const
@@ -77,7 +89,10 @@ void Player::Move(Grid * pGrid, int diceNumber)
 {
 
 	///TODO: Implement this function as mentioned in the guideline steps (numbered below) below
-
+	if (isPrevented()) {
+		preventNext--;
+		return;
+	}
 
 	// == Here are some guideline steps (numbered below) to implement this function ==
 
@@ -95,15 +110,24 @@ void Player::Move(Grid * pGrid, int diceNumber)
 	// 4- Get the player current cell position, say "pos", and add to it the diceNumber (update the position)
 	//    Using the appropriate function of CellPosition class to update "pos"
 	CellPosition pos = Player::GetCell()->GetCellPosition();
-	pos.AddCellNum(diceNumber);
+	if(pos.GetCellNum() + diceNumber > NumHorizontalCells * NumVerticalCells)
+	{
+		Output *pOut = pGrid->GetOutput();
+		pOut->PrintMessage("Player " + to_string(this->getPlayerNumber()) + " has won!"); 
+		pGrid->SetEndGame(true);
+		pos = CellPosition::GetCellPositionFromNum(99);
+	}
+	else
+	{
+			pos.AddCellNum(diceNumber);
+	}	
 	// 5- Use pGrid->UpdatePlayerCell() func to Update player's cell POINTER (pCell) with the cell in the passed position, "pos" (the updated one)
 	//    the importance of this function is that it Updates the pCell pointer of the player and Draws it in the new position
 	pGrid->UpdatePlayerCell(this, pos);
 	// 6- Apply() the game object of the reached cell (if any)
 	if(GetCell()->GetGameObject() != NULL) GetCell()->GetGameObject()->Apply(pGrid, this);
 	// 7- Check if the player reached the end cell of the whole game, and if yes, Set end game with true: pGrid->SetEndGame(true)
-	if(pos.GetCellNum() == NumHorizontalCells * NumVerticalCells)
-		pGrid->SetEndGame(true);
+	
 }
 
 void Player::AppendPlayerInfo(string & playersInfo) const
@@ -113,31 +137,37 @@ void Player::AppendPlayerInfo(string & playersInfo) const
 	playersInfo += to_string(turnCount) + ")";
 }
 
-int Player::GetMostExpensiveStationNumber() {
+int Player::GetMostExpensiveStationNumber() { // return the number of the most expensive cell the player has
 	
-	int stationNumber = -1;
-	int stationPrice = 0;
+	int stationNumber = -1; // initially -1
+	int stationPrice = 0; 
 
-	if (CardNine::getOwner() == this) {
-		if (CardNine::getPrice() > stationPrice) {
+	if (CardNine::getOwner() == this) { // check the ownership of card 9
+		if (CardNine::getPrice() > stationPrice) { // check if card 9 is the most expensive one 
 			stationPrice = CardNine::getPrice();
 			stationNumber = 9;
 		}
 	}
 
-	if (CardTen::getOwner() == this) {
-		if (CardTen::getPrice() > stationPrice) {
+	if (CardTen::getOwner() == this) { // check the ownership of card 10
+		if (CardTen::getPrice() > stationPrice) {  // check if card 10 is the most expensive one
 			stationPrice = CardTen::getPrice();
 			stationNumber = 10;
 		}
 	}
 
-	if (CardEleven::getOwner() == this) {
-		if (CardEleven::getPrice() > stationPrice) {
+	if (CardEleven::getOwner() == this) { // check the ownership of card 11
+		if (CardEleven::getPrice() > stationPrice) {  // check if card 11 is the most expensive one
 			stationPrice = CardEleven::getPrice();
 			stationNumber = 11;
 		}
 	}
 
 	return stationNumber;
+}
+
+
+void Player::ResetAll() {
+	this->wallet = 0;
+	this->turnCount = 0;
 }

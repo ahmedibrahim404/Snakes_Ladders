@@ -3,8 +3,9 @@
 
 class CopyCardAction : public Action
 {
-	CellPosition CardPos;
-	Card* pCard;
+	// [Action Parameters]
+	CellPosition CardPos;	// 1- The postion of the card
+	Card* pCard;			// 2- The Copy Card
 
 public:
 

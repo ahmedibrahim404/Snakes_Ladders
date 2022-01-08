@@ -7,6 +7,7 @@ class CardTen : public Card
 	static int cardPrice;
 	static int feesToPay;
 	static Player* owner;
+	static int cardTenCount;
 public:
 	CardTen(const CellPosition& pos);
 
@@ -21,6 +22,8 @@ public:
 	static void setOwner(Player*);
 
 	virtual Card* GetCopy(CellPosition&);
+	void Save(ofstream& OutFile);
+	void Load(ifstream& Infile, Grid* pGrid);
 
 	virtual ~CardTen(); // A Virtual Destructor
 };

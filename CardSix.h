@@ -21,6 +21,8 @@ public:
 													  // by decrementing the player's wallet by the walletAmount data member
 
 	virtual Card* GetCopy(CellPosition&);
+	void Save(ofstream& OutFile);
+	void Load(ifstream& Infile, Grid* pGrid);
 
 	virtual ~CardSix(); // A Virtual Destructor
 };

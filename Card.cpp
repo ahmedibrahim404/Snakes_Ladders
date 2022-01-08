@@ -1,9 +1,11 @@
 #include "Card.h"
 
+int Card::CardsCount = 0;			// A static member to get the created cards count
 
 Card::Card(const CellPosition & pos) : GameObject(pos) // sets the cell position of the GameObject
 {
 	cellPosition = new CellPosition(pos.GetCellNum());
+	CardsCount++;
 }
 
 void Card::SetCardNumber(int cnum)
@@ -39,9 +41,15 @@ void Card::Apply(Grid* pGrid, Player* pPlayer)
 
 
 bool Card::IsOverlapping(GameObject* newObj) {
-	return false;
+	return false; // overlapping of cards will be automatically detected in Grid Class
 }
 
-Card::~Card()
+int Card::getCardsCount()
 {
+	return CardsCount; // return the count of all cards of the grid
+}
+
+Card::~Card() // destructor
+{
+	CardsCount--;
 }

@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "Output.h"
+
 #include "CardOne.h"
 #include "CardTwo.h"
 #include "CardThree.h"
@@ -22,6 +23,7 @@ AddCardAction::AddCardAction(ApplicationManager *pApp) : Action(pApp)
 
 AddCardAction::~AddCardAction()
 {
+	
 }
 
 void AddCardAction::ReadActionParameters() 
@@ -34,23 +36,23 @@ void AddCardAction::ReadActionParameters()
 
 	// 1- Get a Pointer to the Input / Output Interfaces
 	
+	Grid* pGrid = pManager->GetGrid();
+	Output* pOut = pGrid->GetOutput();
+	Input* pIn = pGrid->GetInput();	
+	
 	// 2- Read the "cardNumber" parameter and set its data member
 	
+	pOut->PrintMessage("New Card: Enter Card Number (from 1 to 12) ...");
+	cardNumber = pIn->GetInteger(pOut);
+
 	// 3- Read the "cardPosition" parameter (its cell position) and set its data member
+
+	pOut->PrintMessage("Now, Click on Card Cell ...");
+	cardPosition = pIn->GetCellClicked();
 
 	// 4- Make the needed validations on the read parameters
 
 	// 5- Clear status bar
-
-	Grid* pGrid = pManager->GetGrid();
-	Output* pOut = pGrid->GetOutput();
-	Input* pIn = pGrid->GetInput();
-
-	pOut->PrintMessage("New Card: Enter Card Number ...");
-	cardNumber = pIn->GetInteger(pOut);
-
-	pOut->PrintMessage("New Card: Click on its Card Cell ...");
-	cardPosition = pIn->GetCellClicked();
 
 	pOut->ClearStatusBar();
 
@@ -66,8 +68,11 @@ void AddCardAction::Execute()
 	// == Here are some guideline steps (numbered below) to implement this function ==
 
 	// 1- The first line of any Action Execution is to read its parameter first
+	
 	ReadActionParameters();
+	
 	// 2- Switch case on cardNumber data member and create the appropriate card object type
+	
 	Card * pCard = NULL; // will point to the card object type
 	switch (cardNumber)
 	{
@@ -110,23 +115,31 @@ void AddCardAction::Execute()
 	}
 
 	// 3- if pCard is correctly set in the switch case (i.e. if pCard is pointing to an object -- NOT NULL)
+	
 	if (pCard)
 	{
 		// A- We get a pointer to the Grid from the ApplicationManager
+	
 		Grid* pGrid = pManager->GetGrid();
 		Output* pOut = pGrid->GetOutput();
 
 		// B- Make the "pCard" reads its card parameters: ReadCardParameters(), It is virtual and depends on the card type
+		
 		pCard->ReadCardParameters(pGrid);
+		
 		// C- Add the card object to the GameObject of its Cell:
+		
 		bool added = pGrid->AddObjectToCell(pCard);
 
 		// if the GameObject cannot be added
+		
 		if (!added)
 		{
 			// Print an appropriate message
-			pGrid->PrintErrorMessage("Error: Cell already has an object ! Click to continue ...");
+		
+			pGrid->PrintErrorMessage("Error: Cell already has an object! Click to continue ...");
 		}
+		
 		// D- if the GameObject cannot be added in the Cell, Print the appropriate error message on statusbar
 		
 	}
@@ -134,3 +147,4 @@ void AddCardAction::Execute()
 	// Here, the card is created and added to the GameObject of its Cell, so we finished executing the AddCardAction
 
 }
+

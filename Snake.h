@@ -7,6 +7,7 @@ class Snake : public GameObject // inherited from GameObject
 	// Note: the "position" data member inherited from the GameObject class is used as the ladder's "Start Cell Position"
 
 	CellPosition endCellPos; // here is the ladder's End Cell Position
+	static int SnakesCount;
 
 public:
 
@@ -15,6 +16,10 @@ public:
 	virtual void Draw(Output* pOut) const; // Draws a snake from its start cell to its end cell
 
 	virtual void Apply(Grid* pGrid, Player* pPlayer); // Applys the effect of the snake
+	static int getSnakesCount();
+
+	void Save(ofstream& OutFile);
+	void Load(ifstream& Infile, Grid* pGrid);
 
 	CellPosition GetEndPosition() const; // A getter for the endCellPos data member
 	virtual bool IsOverlapping(GameObject* newObj);

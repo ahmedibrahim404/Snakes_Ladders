@@ -3,14 +3,17 @@
 Player* CardTen::owner = nullptr;
 int CardTen::cardPrice = 0;
 int CardTen::feesToPay = 0;
+int CardTen::cardTenCount = 0;
 
 CardTen::CardTen(const CellPosition& pos) : Card(pos) // set the cell position of the card
 {
 	cardNumber = 10; // set the inherited cardNumber data member with the card number (10 here)
+	cardTenCount++;
 }
 
 CardTen::~CardTen(void)
 {
+	cardTenCount--;
 }
 
 Player* CardTen::getOwner() {
@@ -32,7 +35,7 @@ void CardTen::setOwner(Player* newOwner) {
 
 void CardTen::ReadCardParameters(Grid* pGrid)
 {
-
+	if (cardTenCount != 1) return;
 	Output* pOut = pGrid->GetOutput();
 	Input* pIn = pGrid->GetInput();
 
@@ -58,23 +61,24 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 
 		if (pPlayer->GetWallet() < cardPrice) return;
 
-		pOut->PrintMessage("Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
+		pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Do you want to buy this station for " + to_string(cardPrice) + " coins? (1 For Yes, 0 For No)");
 		int chose = pIn->GetInteger(pOut);
 		if (chose == 1) {
 			pPlayer->SetWallet(pPlayer->GetWallet() - cardPrice);
+			CardTen::owner = pPlayer;
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + " now owns stations 10");
 		}
-		CardTen::owner = pPlayer;
 
 	}
 	else {
 
 		if (pPlayer != owner) {
-			pOut->PrintMessage("You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()));
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": You must PAY " + to_string(feesToPay) + " to Player " + to_string(owner->getPlayerNumber()) + " because you are in their land");
 			pPlayer->SetWallet(pPlayer->GetWallet() - feesToPay);
 			owner->SetWallet(owner->GetWallet() + feesToPay);
 		}
 		else {
-			pOut->PrintMessage("Welcome to Your station");
+			pOut->PrintMessage("Player " + to_string(pPlayer->getPlayerNumber()) + ": Welcome to Your station, Sir");
 		}
 
 	}
@@ -84,8 +88,17 @@ void CardTen::Apply(Grid* pGrid, Player* pPlayer)
 Card* CardTen::GetCopy(CellPosition& Pos)
 {
 	Card* pCard = new CardTen(Pos);
-	((CardTen*)pCard)->cardPrice = cardPrice;
-	((CardTen*)pCard)->feesToPay = feesToPay;
-	((CardTen*)pCard)->owner = owner;
 	return pCard;
 }
+
+void CardTen::Save(ofstream& OutFile)
+{
+	OutFile << this->GetCardNumber() << "\t" << this->position.GetCellNum() << "\t" << this->cardPrice << "\t" << this->feesToPay << "\n";
+}
+
+void CardTen::Load(ifstream& Infile, Grid* pGrid)
+{
+	Infile >> cardPrice >> feesToPay;
+	pGrid->AddObjectToCell(this);
+}
+
